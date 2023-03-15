@@ -7,7 +7,7 @@ export default class Page404 extends React.Component {
     return (
       <>
         <Header />
-        <div>OOPS 404 ERROR</div>
+        <div style={{ fontSize: "40px" }}>OOPS 404 ERROR</div>
       </>
     );
   }
