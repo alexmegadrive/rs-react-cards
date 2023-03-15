@@ -1,0 +1,32 @@
+.search {
+  display: flex;
+  box-sizing: border-box;
+  width: 70%;
+  height: 50px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.search__input {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 0 20px;
+  width: auto;
+  height: 100%;
+  width: 95%;
+  border: none;
+  &:focus {
+    outline: 5px solid orange;
+    outline-offset: -5px;
+  }
+}
+
+.search__button {
+  background-image: url("../../assets/search-btn.png");
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  background-position: center;
+  width: 50px;
+  background-color: orange;
+}

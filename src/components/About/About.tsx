@@ -1,0 +1,20 @@
+import React from "react";
+import Header from "../Header/Header";
+// import "./card.scss";
+
+export default class About extends React.Component {
+  render() {
+    return (
+      <>
+        <Header />
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quos,
+          dicta explicabo maiores perferendis odit animi numquam eum, voluptatem
+          quasi reiciendis dolorum ea corporis similique delectus vero, facilis
+          eveniet suscipit?
+        </div>
+        ;
+      </>
+    );
+  }
+}
