@@ -7,7 +7,7 @@ export interface IProductDetails {
   details: IProduct;
 }
 export interface IProductsProps {
-  products: IProduct[];
+  products: IProduct[] | never;
 }
 
 export default class CardsList extends React.Component<IProductsProps> {
@@ -18,9 +18,9 @@ export default class CardsList extends React.Component<IProductsProps> {
   render() {
     return (
       <>
-        {this.state.products && this.state.products.length ? (
+        {this.props.products && this.props.products.length ? (
           <div>
-            Items found: {this.state.products.length}
+            Items found: {this.props.products.length}
             <ul className={"cards-list"}>
               {this.props.products.map((card, index) => (
                 <Card key={index} details={card} />

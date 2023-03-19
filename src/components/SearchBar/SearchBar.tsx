@@ -25,7 +25,6 @@ class SearchBar extends React.Component<ISearchBarProps> {
     const input = e.target as HTMLInputElement;
     this.setState({ value: input.value });
     this.props.filterProducts(input.value);
-    console.log(this.state);
   }
   render() {
     return (
