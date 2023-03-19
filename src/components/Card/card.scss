@@ -16,12 +16,14 @@
     text-align: left;
     font-size: 16px;
   }
-  &__details {
+  &__info {
     padding: 10px;
   }
 }
 
-.card__rating {
+.card__details {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
