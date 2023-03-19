@@ -2,6 +2,7 @@ import React from "react";
 import CardsList from "../../components/CardsList/CardsList";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { products } from "../../data/products";
+import Header from "../../components/Header/Header";
 import "./main.scss";
 
 export default class Main extends React.Component {
@@ -11,7 +12,6 @@ export default class Main extends React.Component {
   filterProductsFunc = this.filterProducts.bind(this);
 
   filterProducts(value: string) {
-    console.log("test");
     this.setState({
       filteredProducts: products.filter((product) => {
         return product.title.toLocaleLowerCase().includes(value.toLowerCase());
@@ -21,10 +21,13 @@ export default class Main extends React.Component {
 
   render() {
     return (
-      <main className="main">
-        <SearchBar filterProducts={this.filterProductsFunc} />
-        <CardsList products={this.state.filteredProducts} />
-      </main>
+      <>
+        <Header />
+        <main className="main">
+          <SearchBar filterProducts={this.filterProductsFunc} />
+          <CardsList products={this.state.filteredProducts} />
+        </main>
+      </>
     );
   }
 }

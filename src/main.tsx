@@ -20,9 +20,10 @@ const router = createBrowserRouter([
     element: <Page404 />,
   },
 ]);
+<RouterProvider router={router} />;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>
 );
