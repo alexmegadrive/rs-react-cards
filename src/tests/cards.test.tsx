@@ -1,12 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  queryByAttribute,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { products } from "../data/products";
 import SearchBar from "../components/SearchBar/SearchBar";
 import Header from "../components/Header/Header";

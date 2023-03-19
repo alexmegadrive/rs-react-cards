@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/Header/Header";
 import Main from "./Pages/Main/Main";
 import About from "./Pages/About/About";
 import Page404 from "./Pages/Page404/Page404";
