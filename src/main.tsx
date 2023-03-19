@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import About from "./Pages/About/About";
 import Page404 from "./Pages/Page404/Page404";
-// import Main from "./components/Main/Main";
 import {
   BrowserRouter,
   createBrowserRouter,
