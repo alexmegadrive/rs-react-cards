@@ -12,7 +12,7 @@ export default defineConfig({
   // },
   test: {
     globals: true,
-    // environment: "jsdom",
+    environment: "jsdom",
     coverage: {
       reportsDirectory: "./tests/coverage",
       reporter: ["text", "json", "html"],

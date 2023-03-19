@@ -1,4 +1,10 @@
-import { IProduct } from "../components/CardsList/CardsList";
+export interface IProduct {
+  id: number;
+  price: number;
+  scores: number;
+  img: string;
+  title: string;
+}
 
 export const products: IProduct[] = [
   {

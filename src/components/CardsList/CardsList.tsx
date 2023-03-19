@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../Card/Card";
+import { IProduct } from "../../data/products";
 import "./cardsList.scss";
 
 export interface IProductDetails {
@@ -7,14 +8,6 @@ export interface IProductDetails {
 }
 export interface IProductsProps {
   products: IProduct[];
-}
-
-export interface IProduct {
-  id: number;
-  price: number;
-  scores: number;
-  img: string;
-  title: string;
 }
 
 export default class CardsList extends React.Component<IProductsProps> {

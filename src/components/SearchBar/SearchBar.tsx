@@ -1,20 +1,22 @@
 import React from "react";
 import "./searchBar.scss";
+// import I
 
 interface ISearchBarProps {
-  value: string;
+  filterProducts: (value: string) => void | undefined;
 }
 
-export default class SearchBar extends React.Component {
-  constructor(props: ISearchBarProps) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
+class SearchBar extends React.Component<ISearchBarProps> {
   state = {
-    value: localStorage.getItem("search") ? localStorage.getItem("search") : "",
+    value: localStorage.getItem("search")
+      ? (localStorage.getItem("search") as string)
+      : "",
   };
+  handleChangeInput = this.handleChange.bind(this);
 
+  componentDidMount() {
+    this.props.filterProducts(this.state.value);
+  }
   componentWillUnmount() {
     localStorage.setItem("search", this.state.value as string);
   }
@@ -22,6 +24,7 @@ export default class SearchBar extends React.Component {
   async handleChange(e: React.SyntheticEvent) {
     const input = e.target as HTMLInputElement;
     this.setState({ value: input.value });
+    this.props.filterProducts(input.value);
     console.log(this.state);
   }
   render() {
@@ -31,10 +34,12 @@ export default class SearchBar extends React.Component {
           type="text"
           className="search__input"
           value={this.state.value}
-          onChange={this.handleChange}
+          onChange={this.handleChangeInput}
         ></input>
         <div className="search__button"></div>
       </div>
     );
   }
 }
+
+export default SearchBar;
