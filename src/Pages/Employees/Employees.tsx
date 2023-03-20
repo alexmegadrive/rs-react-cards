@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import EmployeesList from "../../components/Employees/EmployeesList/EmployeesList";
-import EmployeForm from "../../components/Employees/EmployeForm/EmployeForm";
+import AddEmployeForm from "../../components/Employees/AddEmploye/AddEmploye";
 import { employees } from "../../data/employees";
 
 export default class Employees extends React.Component {
@@ -11,7 +11,7 @@ export default class Employees extends React.Component {
       <>
         <Header />
         <main className="main">
-          <EmployeForm />
+          <AddEmployeForm />
           <EmployeesList employees={employees} />
         </main>
       </>

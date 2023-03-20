@@ -10,7 +10,7 @@ export default defineConfig({
     coverage: {
       reportsDirectory: "./tests/coverage",
       reporter: ["text", "json", "html"],
-      provider: "c8",
+      provider: "istanbul",
     },
   },
 });

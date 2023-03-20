@@ -20,6 +20,8 @@ export default class EmployeesList extends React.Component<IEmployeesListProps> 
   render() {
     return (
       <>
+        <h2>Employees list</h2>
+
         {this.props.employees && this.props.employees.length ? (
           <div>
             Employees found: {this.props.employees.length}
