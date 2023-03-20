@@ -5,6 +5,7 @@ import About from "./Pages/About/About";
 import Page404 from "./Pages/Page404/Page404";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+// import "normalize.css";
 
 const router = createBrowserRouter([
   {

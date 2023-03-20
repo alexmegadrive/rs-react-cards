@@ -1,0 +1,39 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  gap: 15px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  //   height: 100px;
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 10px;
+
+  &__details {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  &__row {
+    text-align: left;
+  }
+}
+
+.label {
+  font-weight: 900;
+}
+
+.category {
+  background-color: lightblue;
+  padding: 2px 4px;
+  border-radius: 5px;
+}
+
+.category + .category {
+  margin-left: 5px;
+}
