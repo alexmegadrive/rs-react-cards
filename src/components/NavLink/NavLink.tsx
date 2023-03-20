@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface ILink {
-  destination: "about" | "main" | "contacts" | "support";
+  destination: string;
 }
 export default class NavLink extends React.Component<ILink> {
   render() {
@@ -32,7 +32,12 @@ export default class NavLink extends React.Component<ILink> {
             Support
           </Link>
         );
-
+      case "employees":
+        return (
+          <Link className="header__link" to={"/employees"}>
+            Employees
+          </Link>
+        );
       default:
         break;
     }

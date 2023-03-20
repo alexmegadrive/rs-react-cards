@@ -16,6 +16,7 @@ export default class Header extends React.Component<IHeader> {
         <NavLink destination={"about"} />
         <NavLink destination={"contacts"} />
         <NavLink destination={"support"} />
+        <NavLink destination={"employees"} />
       </header>
     );
   }
