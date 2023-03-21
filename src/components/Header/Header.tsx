@@ -11,7 +11,6 @@ export default class Header extends React.Component<IHeader> {
     return (
       <header className="header">
         <img className="logo" src={logo} alt="logo" />
-
         <NavLink destination={"main"} />
         <NavLink destination={"about"} />
         <NavLink destination={"contacts"} />
