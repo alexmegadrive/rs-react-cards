@@ -3,8 +3,6 @@ import "./card.scss";
 import { IProductDetails } from "../CardsList/CardsList";
 
 export default class Card extends React.Component<IProductDetails> {
-  // this.props.details:<IDetails>
-
   render() {
     return (
       <li className={"card"}>
@@ -23,7 +21,6 @@ export default class Card extends React.Component<IProductDetails> {
                 currency: "USD",
               }).format(this.props.details.price)}
             </p>
-            {/* <div className={"card__price"}>{this.props.details.price}</div> */}
           </div>
         </div>
       </li>

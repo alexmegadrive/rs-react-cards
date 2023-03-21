@@ -1,6 +1,5 @@
 import React from "react";
 import "./searchBar.scss";
-// import I
 
 interface ISearchBarProps {
   filterProducts: (value: string) => void | undefined;
