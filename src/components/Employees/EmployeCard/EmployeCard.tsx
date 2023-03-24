@@ -1,7 +1,6 @@
 import React from "react";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import styles from "../Employees.module.scss";
-// import "./card.scss";
 
 export interface IEmployeeCardProps {
   employe: IEmployeCard;
@@ -9,33 +8,44 @@ export interface IEmployeeCardProps {
 
 export default class EmployeCard extends React.Component<IEmployeeCardProps> {
   render() {
+    const {
+      firstName,
+      lastName,
+      accessCategories,
+      birthDate,
+      email,
+      group,
+      isNotificationsEnabled,
+      img,
+    } = this.props.employe;
+
     return (
       <li className={styles.card}>
         <ul className={styles.card__details}>
           <li className={styles.card__row}>
             <span className={styles.label}>Name: </span>
-            {this.props.employe.firstName}
+            {firstName}
           </li>
 
           <li className={styles.card__row}>
             <span className={styles.label}>Last name: </span>
-            {this.props.employe.lastName}
+            {lastName}
           </li>
           <li className={styles.card__row}>
             <span className={styles.label}>Email: </span>
-            {this.props.employe.email}
+            {email}
           </li>
           <li className={styles.card__row}>
             <span className={styles.label}>Birth date: </span>
-            {this.props.employe.birthDate}
+            {birthDate}
           </li>
           <li className={styles.card__row}>
             <span className={styles.label}>Role: </span>
-            {this.props.employe.group}
+            {group}
           </li>
           <li className={styles.card__row}>
             <span className={styles.label}>Access categories: </span>
-            {this.props.employe.accessCategories.map((group, index) => (
+            {accessCategories.map((group, index) => (
               <span className={styles.category} key={index}>
                 {group}
               </span>
@@ -43,9 +53,10 @@ export default class EmployeCard extends React.Component<IEmployeeCardProps> {
           </li>
           <li className={styles.card__row}>
             <span className={styles.label}>Notifications: </span>
-            {this.props.employe.isNotificationsEnabled ? "yes" : "no"}
+            {isNotificationsEnabled ? "yes" : "no"}
           </li>
         </ul>
+        <img className={styles.card__photo} src={img}></img>
       </li>
     );
   }

@@ -9,7 +9,7 @@ interface ISearchBarProps {
 class SearchBar extends React.Component<ISearchBarProps> {
   state = {
     value: localStorage.getItem("search")
-      ? (localStorage.getItem("search") as string)
+      ? (localStorage["search"] as string)
       : "",
   };
   handleChangeInput = this.handleChange.bind(this);
@@ -18,7 +18,7 @@ class SearchBar extends React.Component<ISearchBarProps> {
     this.props.filterProducts(this.state.value);
   }
   componentWillUnmount() {
-    localStorage.setItem("search", this.state.value as string);
+    localStorage["search"] = this.state.value as string;
   }
 
   async handleChange(e: React.SyntheticEvent) {

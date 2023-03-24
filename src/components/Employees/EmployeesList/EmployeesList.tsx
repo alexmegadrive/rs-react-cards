@@ -10,7 +10,8 @@ export interface IEmployeCard {
   birthDate: string;
   isNotificationsEnabled: boolean;
   group: string;
-  accessCategories: string[];
+  accessCategories: (string | undefined)[];
+  img?: string;
 }
 export interface IEmployeesListProps {
   employees: IEmployeCard[] | never;

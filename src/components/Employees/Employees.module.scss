@@ -8,9 +8,9 @@
 
 .card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   width: 800px;
-  //   height: 100px;
   padding: 20px;
   border: 1px solid grey;
   border-radius: 10px;
@@ -22,6 +22,11 @@
   }
   &__row {
     text-align: left;
+  }
+  &__photo {
+    width: 300px;
+    height: auto;
+    object-fit: contain;
   }
 }
 
@@ -47,4 +52,11 @@
   border: 1px solid grey;
   border-radius: 10px;
   padding: 20px;
+}
+.preview {
+  display: none;
+  width: 110px;
+  height: 60px;
+  margin: 2px;
+  object-fit: cover;
 }

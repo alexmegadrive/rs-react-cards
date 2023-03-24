@@ -22,11 +22,14 @@ a {
   color: white;
   text-decoration: inherit;
 }
-a:hover {
+a.active {
   color: orange;
 }
+a:hover {
+  color: darkorange;
+}
 
-body {
+.header__link--active body {
   margin: 0;
   display: flex;
   min-width: 320px;
@@ -38,22 +41,26 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+button,
+input[type="submit"] {
+  margin: 5px;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid black;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover,
+input[type="submit"]:hover {
   border-color: #646cff;
 }
 button:focus,
-button:focus-visible {
+button:focus-visible,
+input[type="submit"]:focus {
   outline: 4px auto -webkit-focus-ring-color;
 }
 

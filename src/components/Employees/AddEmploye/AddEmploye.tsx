@@ -1,9 +1,12 @@
 import React from "react";
-import styles from "../Employees.module.scss";
 import NewEmployeForm from "../NewEmployeForm/NewEmployeForm";
-// import "./card.scss";
+import { IEmployeCard } from "../EmployeesList/EmployeesList";
 
-export default class AddEmploye extends React.Component {
+interface IAddEmployeProps {
+  addNewEmploye: (e: IEmployeCard) => void;
+}
+
+export default class AddEmploye extends React.Component<IAddEmployeProps> {
   state = {
     isFormShown: false,
   };
@@ -12,7 +15,7 @@ export default class AddEmploye extends React.Component {
     return (
       <>
         {this.state.isFormShown ? (
-          <NewEmployeForm />
+          <NewEmployeForm addNewEmploye={this.props.addNewEmploye} />
         ) : (
           <button onClick={() => this.setState({ isFormShown: true })}>
             New employe
