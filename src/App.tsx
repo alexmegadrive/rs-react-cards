@@ -7,24 +7,27 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Employees from "./Pages/Employees/Employees";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Main />,
-    },
-    {
-      path: "/about",
-      element: <About />,
-    },
-    {
-      path: "/employees",
-      element: <Employees />,
-    },
-    {
-      path: "*",
-      element: <Page404 />,
-    },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Main />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/employees",
+        element: <Employees />,
+      },
+      {
+        path: "*",
+        element: <Page404 />,
+      },
+    ],
+    { basename: "/rs-react-cards" }
+  );
 
   return <RouterProvider router={router} />;
 }

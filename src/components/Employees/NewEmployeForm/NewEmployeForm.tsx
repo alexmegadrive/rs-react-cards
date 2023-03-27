@@ -243,6 +243,8 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
                   type="checkbox"
                   id="category"
                   name={category}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   ref={this[category as keyof this]}
                 ></input>
                 <label htmlFor={category}>{category}</label>
