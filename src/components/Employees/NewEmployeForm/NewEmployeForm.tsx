@@ -13,9 +13,14 @@ interface IErrors {
   email?: string;
   firstName?: string;
   lastName?: string;
+  date?: string;
+}
+interface INewEmployeFormState {
+  isPreviewActive: boolean;
+  errors: IErrors;
 }
 export default class NewEmployeForm extends React.Component<INewEmployeFormProps> {
-  state = {
+  state: INewEmployeFormState = {
     isPreviewActive: false,
     errors: {},
   };
@@ -103,28 +108,40 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
     const email = this.email.current;
     const firstName = this.firstName.current;
     const lastName = this.lastName.current;
+    const date = this.birthDate.current;
     let isValid = true;
 
     if (email && !email.value) {
       errors.email = "Email is required";
       isValid = false;
-    }
+    } else delete errors.email;
 
     if (email && !/\S+@\S+\.\S+/.test(email.value)) {
       errors.email = "Invalid email address";
       isValid = false;
-    }
-    if (firstName && !/^([A-Za-zА-Яа-яЁё]{3,})$/.test(firstName.value)) {
-      errors.firstName = "Invalid first name";
-      isValid = false;
-    }
+    } else delete errors.email;
+
     if (lastName && !/^([A-Za-zА-Яа-яЁё]{3,})$/.test(lastName.value)) {
       errors.lastName = "Invalid last name";
       isValid = false;
-    }
+    } else delete errors.lastName;
 
-    if (Object.values(errors).length > 0)
-      alert(Object.values(errors).join(", "));
+    if (firstName && !/^([A-Za-zА-Яа-яЁё]{3,})$/.test(firstName.value)) {
+      errors.firstName = "Invalid first name";
+    } else delete errors.firstName;
+
+    if (
+      (date && Number(date.value.split("-")[0]) < 1900) ||
+      (date && Number(date.value.split("-")[0]) > 2020)
+    ) {
+      errors.date = "Invalid date";
+    } else delete errors.date;
+
+    this.setState({
+      ...this.state,
+      errors: { ...errors },
+    });
+
     return isValid;
   };
 
@@ -239,6 +256,7 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
               accept="image/*"
               name="avatar"
               onChange={(event) => this.handleImageUpload(event)}
+              required
             />
             <img
               src=""
@@ -247,6 +265,11 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
               ref={this.preview}
             />
             <input type="submit" value="Preview" />
+            <div style={{ color: "red" }}>
+              {Object.values(this.state.errors).length > 0
+                ? Object.values(this.state.errors).join(", ")
+                : ""}
+            </div>
           </form>
         )}
       </>
