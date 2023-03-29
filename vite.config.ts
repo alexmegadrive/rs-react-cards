@@ -11,6 +11,7 @@ export default defineConfig({
       reportsDirectory: "./tests/coverage",
       reporter: ["text", "json", "html"],
       provider: "istanbul",
+      all: true,
     },
   },
 });

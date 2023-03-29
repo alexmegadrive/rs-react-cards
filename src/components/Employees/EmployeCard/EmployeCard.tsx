@@ -20,7 +20,7 @@ export default class EmployeCard extends React.Component<IEmployeeCardProps> {
     } = this.props.employe;
 
     return (
-      <li className={styles.card}>
+      <li className={styles.card} data-testid="card">
         <ul className={styles.card__details}>
           <li className={styles.card__row}>
             <span className={styles.label}>Name: </span>

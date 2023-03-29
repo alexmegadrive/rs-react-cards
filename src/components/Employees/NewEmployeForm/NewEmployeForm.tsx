@@ -2,7 +2,6 @@ import React from "react";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
-
 const categories = ["laptops", "smartphones", "tv", "computers", "appliance"];
 
 interface INewEmployeFormProps {
@@ -155,7 +154,11 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
             hidePreview={this.hidePreview}
           />
         ) : (
-          <form className={styles.form} onSubmit={this.onSubmit}>
+          <form
+            className={styles.form}
+            onSubmit={this.onSubmit}
+            data-testid="form"
+          >
             <h3>Add new employee</h3>
             <label className={styles.label} htmlFor="firstName">
               First name:
@@ -191,14 +194,7 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
             <label className={styles.label} htmlFor="b-date">
               Date of birth:
             </label>
-            <input
-              type="date"
-              placeholder="Smith"
-              name="b-date"
-              id="b-date"
-              ref={this.birthDate}
-              required
-            />
+            <input type="date" name="b-date" id="b-date" ref={this.birthDate} />
             <label className={styles.label} htmlFor="role">
               Role:
             </label>
@@ -222,7 +218,7 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
                   type="radio"
                   id="notifications-on"
                   name="notifications"
-                  required
+                  checked
                 />
               </label>
               <label htmlFor="notifications-off">
@@ -250,15 +246,15 @@ export default class NewEmployeForm extends React.Component<INewEmployeFormProps
                 <label htmlFor={category}>{category}</label>
               </div>
             ))}
-            <label className={styles.label} htmlFor="avatar">
+            <label className={styles.label} htmlFor="file">
               Upload a photo
             </label>
             <input
               type="file"
+              id="file"
               accept="image/*"
-              name="avatar"
+              name="file"
               onChange={(event) => this.handleImageUpload(event)}
-              required
             />
             <img
               src=""
