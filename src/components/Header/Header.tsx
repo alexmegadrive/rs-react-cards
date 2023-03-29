@@ -1,7 +1,7 @@
 import React from "react";
 import "./header.scss";
 import logo from "/logo.webp";
-import NavLink from "../NavLink/NavLink";
+import NavigationLink from "../NavLink/NavLink";
 
 interface IHeader {
   location?: "about" | "main" | undefined;
@@ -12,10 +12,11 @@ export default class Header extends React.Component<IHeader> {
       <header className="header">
         <img className="logo" src={logo} alt="logo" />
 
-        <NavLink destination={"main"} />
-        <NavLink destination={"about"} />
-        <NavLink destination={"contacts"} />
-        <NavLink destination={"support"} />
+        <NavigationLink destination={"main"} />
+        <NavigationLink destination={"about"} />
+        <NavigationLink destination={"contacts"} />
+        <NavigationLink destination={"support"} />
+        <NavigationLink destination={"employees"} />
       </header>
     );
   }

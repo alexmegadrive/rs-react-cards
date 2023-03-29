@@ -3,27 +3,23 @@ import "./card.scss";
 import { IProductDetails } from "../CardsList/CardsList";
 
 export default class Card extends React.Component<IProductDetails> {
-  // this.props.details:<IDetails>
-
   render() {
+    const { title, price, scores, img } = this.props.details;
     return (
       <li className={"card"}>
-        <img className={"card__img"} src={this.props.details.img}></img>
+        <img className={"card__img"} src={img}></img>
         <div className={"card__info"}>
           <h2 className={"card__title"}>
-            {this.props.details.title.length > 70
-              ? this.props.details.title.slice(0, 70) + "..."
-              : this.props.details.title}
+            {title.length > 70 ? title.slice(0, 70) + "..." : title}
           </h2>
           <div className={"card__details"}>
-            <p className={"card__rating"}>{this.props.details.scores} scores</p>
+            <p className={"card__rating"}>{scores} scores</p>
             <p>
               {new Intl.NumberFormat("en-EN", {
                 style: "currency",
                 currency: "USD",
-              }).format(this.props.details.price)}
+              }).format(price)}
             </p>
-            {/* <div className={"card__price"}>{this.props.details.price}</div> */}
           </div>
         </div>
       </li>

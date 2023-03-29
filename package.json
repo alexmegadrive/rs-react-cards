@@ -2,10 +2,12 @@
   "name": "rs-react-cards",
   "private": true,
   "version": "0.0.0",
-  "homepage": "./",
+  "homepage": "/rs-react-cards",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "eslint": "eslint src/",
@@ -14,6 +16,7 @@
     "cover": "vitest run --coverage"
   },
   "dependencies": {
+    "gh-pages": "^5.0.0",
     "normalize.css": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
