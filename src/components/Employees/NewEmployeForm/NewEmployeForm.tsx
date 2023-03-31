@@ -79,9 +79,9 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
     setTimeout(() => {
       if (validateForm(newEmployeCard)) {
         setIsPreviewActive(true);
+        reset();
       }
     }, 0);
-    reset();
     return data;
   };
 
@@ -150,7 +150,7 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
 
   return (
     <>
-      {isPreviewActive && newEmploye ? (
+      {isPreviewActive ? (
         <NewEmployePreview
           employe={newEmploye}
           addNewEmploye={addNewEmploye}
