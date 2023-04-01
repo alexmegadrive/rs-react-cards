@@ -6,18 +6,19 @@ import NavigationLink from "../NavLink/NavLink";
 interface IHeader {
   location?: "about" | "main" | undefined;
 }
-export default class Header extends React.Component<IHeader> {
-  render() {
-    return (
-      <header className="header">
-        <img className="logo" src={logo} alt="logo" />
 
-        <NavigationLink destination={"/"} text={"Main"} />
-        <NavigationLink destination={"/about"} text={"About"} />
-        <NavigationLink destination={"/contacts"} text={"Contacts"} />
-        <NavigationLink destination={"/support"} text={"Support"} />
-        <NavigationLink destination={"/employees"} text={"Employees"} />
-      </header>
-    );
-  }
-}
+const Header = ({ location }: IHeader) => {
+  return (
+    <header className="header">
+      <img className="logo" src={logo} alt="logo" />
+
+      <NavigationLink destination={"/"} text={"Main"} />
+      <NavigationLink destination={"/about"} text={"About"} />
+      <NavigationLink destination={"/contacts"} text={"Contacts"} />
+      <NavigationLink destination={"/support"} text={"Support"} />
+      <NavigationLink destination={"/employees"} text={"Employees"} />
+    </header>
+  );
+};
+
+export default Header;
