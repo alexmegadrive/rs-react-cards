@@ -1,44 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./searchBar.scss";
-// import I
 
 interface ISearchBarProps {
   filterProducts: (value: string) => void | undefined;
 }
 
-class SearchBar extends React.Component<ISearchBarProps> {
-  state = {
-    value: localStorage.getItem("search")
-      ? (localStorage["search"] as string)
-      : "",
-  };
-  handleChangeInput = this.handleChange.bind(this);
+const SearchBar = ({ filterProducts }: ISearchBarProps) => {
+  const [value, setValue] = useState(localStorage.getItem("search") || "");
 
-  componentDidMount() {
-    this.props.filterProducts(this.state.value);
-  }
-  componentWillUnmount() {
-    localStorage["search"] = this.state.value as string;
-  }
+  useEffect(() => {
+    filterProducts(value);
+    return () => (localStorage["search"] = value as string);
+  });
 
-  async handleChange(e: React.SyntheticEvent) {
+  const handleChange = (e: React.SyntheticEvent) => {
     const input = e.target as HTMLInputElement;
-    this.setState({ value: input.value });
-    this.props.filterProducts(input.value);
-  }
-  render() {
-    return (
-      <div className="search">
-        <input
-          type="text"
-          className="search__input"
-          value={this.state.value}
-          onChange={this.handleChangeInput}
-        ></input>
-        <div className="search__button"></div>
-      </div>
-    );
-  }
-}
+    setValue(input.value);
+    // this.setState({ value: input.value });
+    filterProducts(input.value);
+  };
+
+  return (
+    <div className="search">
+      <input
+        type="text"
+        className="search__input"
+        value={value}
+        onChange={handleChange}
+      ></input>
+      <div className="search__button"></div>
+    </div>
+  );
+};
 
 export default SearchBar;
