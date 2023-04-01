@@ -3,48 +3,24 @@ import { NavLink } from "react-router-dom";
 
 interface ILink {
   destination: string;
+  text: string;
 }
-export default class NavigationLink extends React.Component<ILink> {
-  render() {
-    switch (this.props.destination) {
-      case "about":
-        return (
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "header__link active" : "header__link"
-            }
-            to={"/about"}
-          >
-            About
-          </NavLink>
-        );
+interface isActive {
+  isActive: boolean;
+}
+// import React from 'react';
 
-      case "main":
-        return (
-          <NavLink className="header__link" to={"/"}>
-            Main
-          </NavLink>
-        );
-      case "contacts":
-        return (
-          <NavLink className="header__link" to={"/contacts"}>
-            Contacts
-          </NavLink>
-        );
-      case "support":
-        return (
-          <NavLink className="header__link" to={"/support"}>
-            Support
-          </NavLink>
-        );
-      case "employees":
-        return (
-          <NavLink className="header__link" to={"/employees"}>
-            Employees
-          </NavLink>
-        );
-      default:
-        break;
-    }
-  }
-}
+const NavigationLink = ({ destination, text }: ILink) => {
+  return (
+    <NavLink
+      className={({ isActive }: isActive) =>
+        isActive ? "header__link active" : "header__link"
+      }
+      to={destination}
+    >
+      {text}
+    </NavLink>
+  );
+};
+
+export default NavigationLink;

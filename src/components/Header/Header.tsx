@@ -12,11 +12,11 @@ export default class Header extends React.Component<IHeader> {
       <header className="header">
         <img className="logo" src={logo} alt="logo" />
 
-        <NavigationLink destination={"main"} />
-        <NavigationLink destination={"about"} />
-        <NavigationLink destination={"contacts"} />
-        <NavigationLink destination={"support"} />
-        <NavigationLink destination={"employees"} />
+        <NavigationLink destination={"/"} text={"Main"} />
+        <NavigationLink destination={"/about"} text={"About"} />
+        <NavigationLink destination={"/contacts"} text={"Contacts"} />
+        <NavigationLink destination={"/support"} text={"Support"} />
+        <NavigationLink destination={"/employees"} text={"Employees"} />
       </header>
     );
   }
