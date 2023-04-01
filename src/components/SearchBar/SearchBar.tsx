@@ -16,7 +16,6 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   const handleChange = (e: React.SyntheticEvent) => {
     const input = e.target as HTMLInputElement;
     setValue(input.value);
-    // this.setState({ value: input.value });
     filterProducts(input.value);
   };
 
