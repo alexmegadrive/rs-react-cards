@@ -11,7 +11,7 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   useEffect(() => {
     filterProducts(value);
     return () => (localStorage["search"] = value as string);
-  });
+  }, [value]);
 
   const handleChange = (e: React.SyntheticEvent) => {
     const input = e.target as HTMLInputElement;
