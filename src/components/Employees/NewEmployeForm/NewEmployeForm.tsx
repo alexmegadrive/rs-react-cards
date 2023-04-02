@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
@@ -37,6 +37,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     accessCategories: [],
     group: "",
   });
+  const preview = React.useRef(null);
   const hidePreview = () => {
     setIsPreviewActive(false);
   };

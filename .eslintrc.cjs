@@ -1,28 +1,26 @@
 module.exports = {
-  "parser": "@typescript-eslint/parser",
-  "extends": [
+  parser: "@typescript-eslint/parser",
+  extends: [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
   ],
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest": true,
-    "node": true
+  env: {
+    browser: true,
+    es6: true,
+    jest: true,
+    node: true,
   },
-  "root": true,
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+  root: true,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    "ecmaVersion": "latest",
-		"sourceType": "module"
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-  "plugins": [
-    "@typescript-eslint", "react"
-  ],
-  "rules": {
-     "comma-dangle": ["error", "only-multiline"],
+  plugins: ["@typescript-eslint", "react", "react-hooks"],
+  rules: {
+    "comma-dangle": ["error", "only-multiline"],
     "react/prop-types": "off",
     "react/display-name": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -34,12 +32,14 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-reqiures": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
   },
-	"settings": {
-		"react": {
-			"pragma": "React",
-			"version": "detect"
-		}
-	}
-}
+  settings: {
+    react: {
+      pragma: "React",
+      version: "detect",
+    },
+  },
+};
