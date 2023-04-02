@@ -5,8 +5,8 @@ import AddEmployeForm from "../../components/Employees/AddEmploye/AddEmploye";
 import employeesDB from "../../data/employees";
 import { IEmployeCard } from "../../components/Employees/EmployeesList/EmployeesList";
 
-const Employees = () => {
-  const [employees, setEmployees] = useState(employeesDB);
+const Employees: React.FC = () => {
+  const [employees, setEmployees] = useState<IEmployeCard[]>(employeesDB);
 
   const addNewEmploye = (newEmploye: IEmployeCard) => {
     setEmployees([newEmploye, ...employees]);

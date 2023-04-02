@@ -5,7 +5,7 @@ import { products, IProduct } from "../../data/products";
 import Header from "../../components/Header/Header";
 import "./main.scss";
 
-const Main = () => {
+const Main: React.FC = () => {
   const [filteredProducts, setFilteredProducts] =
     useState<IProduct[]>(products);
 

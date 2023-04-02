@@ -9,7 +9,7 @@ interface isActive {
   isActive: boolean;
 }
 
-const NavigationLink = ({ destination, text }: ILink) => {
+const NavigationLink: React.FC<ILink> = ({ destination, text }) => {
   return (
     <NavLink
       className={({ isActive }: isActive) =>
