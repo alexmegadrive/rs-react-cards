@@ -6,31 +6,27 @@ import "./cardsList.scss";
 export interface IProductDetails {
   details: IProduct;
 }
-export interface IProductsProps {
+type CardsListProps = {
   products: IProduct[] | never;
-}
+};
 
-export default class CardsList extends React.Component<IProductsProps> {
-  state = {
-    products: this.props.products,
-  };
+const CardsList = ({ products }: CardsListProps) => {
+  return (
+    <>
+      {products && products.length ? (
+        <div>
+          Items found: {products.length}
+          <ul className={"cards-list"}>
+            {products.map((card, index) => (
+              <Card key={index} details={card} />
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>No items found</div>
+      )}
+    </>
+  );
+};
 
-  render() {
-    return (
-      <>
-        {this.props.products && this.props.products.length ? (
-          <div>
-            Items found: {this.props.products.length}
-            <ul className={"cards-list"}>
-              {this.props.products.map((card, index) => (
-                <Card key={index} details={card} />
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div>No items found</div>
-        )}
-      </>
-    );
-  }
-}
+export default CardsList;

@@ -8,7 +8,6 @@ interface ILink {
 interface isActive {
   isActive: boolean;
 }
-// import React from 'react';
 
 const NavigationLink = ({ destination, text }: ILink) => {
   return (

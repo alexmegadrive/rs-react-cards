@@ -76,12 +76,10 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
     console.log("newEmployeCard :", newEmployeCard);
 
     setNewEmploye(newEmployeCard);
-    setTimeout(() => {
-      if (validateForm(newEmployeCard)) {
-        setIsPreviewActive(true);
-        reset();
-      }
-    }, 0);
+    if (validateForm(newEmployeCard)) {
+      setIsPreviewActive(true);
+      reset();
+    }
     return data;
   };
 
@@ -170,9 +168,25 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             type="text"
             placeholder="John"
             id="firstName"
-            {...register("firstName", { required: "Name is required!" })}
-            // required
+            {...register("firstName", {
+              required: "Name is required!",
+              pattern: /^([A-Za-zА-Яа-яЁё]{3,})$/,
+            })}
+            aria-invalid={errorsLog.firstName ? "true" : "false"}
           />
+          {/* {errorsLog.firstName?.message} */}
+          {/* {errorsLog.firstName?.type} */}
+          {errorsLog.firstName?.type === "pattern" && (
+            <p role="alert" style={{ color: "red" }}>
+              Invalid first name
+            </p>
+          )}
+          {errorsLog.firstName?.type === "required" && (
+            <p role="alert" style={{ color: "red" }}>
+              First name is required
+            </p>
+          )}
+
           <label className={styles.label} htmlFor="lastName">
             Last name:
           </label>
@@ -199,8 +213,24 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
           <input
             type="date"
             id="birthDate"
-            {...register("birthDate", { required: "Date is required!" })}
+            {...register("birthDate", {
+              required: "Date is required!",
+              // pattern:
+              //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
+            })}
+            aria-invalid={errorsLog.birthDate ? "true" : "false"}
           />
+          {/* {errorsLog.birthDate?.type === "pattern" && (
+            <p role="alert" style={{ color: "red" }}>
+              Invalid birth date
+            </p>
+          )}
+          {errorsLog.birthDate?.type === "required" && (
+            <p role="alert" style={{ color: "red" }}>
+              birth date is required
+            </p>
+          )} */}
+
           <label className={styles.label} htmlFor="group">
             Group:
           </label>
@@ -255,7 +285,7 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             id="file"
             // data-testid="file"
             accept="image/*"
-            {...register("file", { required: "file is required!" })}
+            {...register("file")}
             onChange={(event) => handleImageUpload(event)}
           />
 

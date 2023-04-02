@@ -4,7 +4,7 @@ import Employees from "./Employees";
 import userEvent from "@testing-library/user-event";
 
 import { BrowserRouter } from "react-router-dom";
-import employees from "../../data/employees";
+import employeesDB from "../../data/employees";
 
 describe("Employees test", () => {
   beforeEach(() => {
@@ -19,6 +19,6 @@ describe("Employees test", () => {
     const cards = screen.getAllByTestId("card");
     const employesBtn = screen.getByRole("link", { name: /employees/i });
     await userEvent.click(employesBtn);
-    expect(cards).toHaveLength(employees.length);
+    expect(cards).toHaveLength(employeesDB.length);
   });
 });

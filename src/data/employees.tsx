@@ -1,4 +1,4 @@
-const employees = [
+const employeesDB = [
   {
     id: 2134,
     firstName: "Ivan",
@@ -23,4 +23,4 @@ const employees = [
   },
 ];
 
-export default employees;
+export default employeesDB;
