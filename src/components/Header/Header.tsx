@@ -7,7 +7,7 @@ interface IHeader {
   location?: "about" | "main" | undefined;
 }
 
-const Header = ({ location }: IHeader) => {
+const Header: React.FC<IHeader> = ({}) => {
   return (
     <header className="header">
       <img className="logo" src={logo} alt="logo" />

@@ -6,14 +6,18 @@ interface ISearchBarProps {
 }
 
 const SearchBar = ({ filterProducts }: ISearchBarProps) => {
-  const [value, setValue] = useState(localStorage.getItem("search") || "");
+  const [value, setValue] = useState<string>(
+    localStorage.getItem("search") || ""
+  );
 
   useEffect(() => {
     filterProducts(value);
-    return () => (localStorage["search"] = value as string);
+    return () => {
+      localStorage["search"] = value as string;
+    };
   }, [value]);
 
-  const handleChange = (e: React.SyntheticEvent) => {
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
     setValue(input.value);
     filterProducts(input.value);

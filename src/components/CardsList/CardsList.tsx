@@ -10,7 +10,7 @@ type CardsListProps = {
   products: IProduct[] | never;
 };
 
-const CardsList = ({ products }: CardsListProps) => {
+const CardsList: React.FC<CardsListProps> = ({ products }) => {
   return (
     <>
       {products && products.length ? (

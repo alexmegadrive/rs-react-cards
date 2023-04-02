@@ -17,25 +17,25 @@ export interface IEmployeesListProps {
   employees: IEmployeCard[] | never;
 }
 
-export default class EmployeesList extends React.Component<IEmployeesListProps> {
-  render() {
-    return (
-      <>
-        <h2>Employees list</h2>
+const EmployeesList: React.FC<IEmployeesListProps> = ({ employees }) => {
+  return (
+    <>
+      <h2>Employees list</h2>
 
-        {this.props.employees && this.props.employees.length ? (
-          <div>
-            Employees found: {this.props.employees.length}
-            <ul className={styles.list}>
-              {this.props.employees.map((employe, index) => (
-                <EmployeCard key={index} employe={employe} />
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div>No employees found</div>
-        )}
-      </>
-    );
-  }
-}
+      {employees && employees.length ? (
+        <div>
+          Employees found: {employees.length}
+          <ul className={styles.list}>
+            {employees.map((employe, index) => (
+              <EmployeCard key={index} employe={employe} />
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>No employees found</div>
+      )}
+    </>
+  );
+};
+
+export default EmployeesList;

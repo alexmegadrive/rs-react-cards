@@ -2,7 +2,7 @@ import React from "react";
 import "./card.scss";
 import { IProductDetails } from "../CardsList/CardsList";
 
-const Card = ({ details }: IProductDetails) => {
+const Card: React.FC<IProductDetails> = ({ details }) => {
   const { title, price, scores, img } = details;
 
   return (

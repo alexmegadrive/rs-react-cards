@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
@@ -17,16 +17,15 @@ interface IErrors {
   img?: string;
 }
 
-const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
+const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors: errorsLog },
   } = useForm();
-  const [isPreviewActive, setIsPreviewActive] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [test, setTest] = useState("...");
+  const [isPreviewActive, setIsPreviewActive] = useState<boolean>(false);
+  const [errors, setErrors] = useState<IErrors>({});
   const [newEmploye, setNewEmploye] = useState<IEmployeCard>({
     id: 0,
     firstName: "",
@@ -42,25 +41,11 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
     setIsPreviewActive(false);
   };
 
-  const preview = useRef<HTMLImageElement>(null);
-  const laptops = useRef<HTMLInputElement>(null);
-  const smartphones = useRef<HTMLInputElement>(null);
-  const computers = useRef<HTMLInputElement>(null);
-  const tv = useRef<HTMLInputElement>(null);
-  const appliance = useRef<HTMLInputElement>(null);
-  const categoriesRefs = [laptops, smartphones, computers, tv, appliance];
-
   const handleSubmitForm = async (data) => {
-    console.log("test");
     let src = "";
     if (data.file[0]) {
       src = await URL.createObjectURL(data.file[0]);
-      setTest(data.file[0].name);
-      console.log("data.file[0].name :", data.file[0].name);
-      console.log("test :");
-    } else setTest("222");
-    console.log("test 222:");
-    console.log("src :", src);
+    }
 
     const newEmployeCard: IEmployeCard = {
       id: Date.now(),
@@ -73,7 +58,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
       accessCategories: [],
       img: src,
     };
-    console.log("newEmployeCard :", newEmployeCard);
 
     setNewEmploye(newEmployeCard);
     if (validateForm(newEmployeCard)) {
@@ -83,7 +67,9 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
     return data;
   };
 
-  const handleImageUpload = async (event: React.SyntheticEvent) => {
+  const handleImageUpload = async (
+    event: React.SyntheticEvent<HTMLInputElement>
+  ) => {
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       if (preview.current) preview.current.style.display = "flex";
@@ -129,19 +115,14 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
     if (
       (date && Number(date.split("-")[0]) < 1900) ||
       (date && Number(date.split("-")[0]) > 2020) ||
-      (date && !date.length)
+      (date && !date.length) ||
+      !date
     ) {
       errorsLog.date = "Invalid date";
       isValid = false;
     } else delete errorsLog.date;
 
-    // this.setState({
-    //   ...this.state,
-    //   errors: { ...errors },
-    // });
     setErrors(errorsLog);
-
-    console.log("errors :", errorsLog);
 
     return isValid;
   };
@@ -174,8 +155,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             })}
             aria-invalid={errorsLog.firstName ? "true" : "false"}
           />
-          {/* {errorsLog.firstName?.message} */}
-          {/* {errorsLog.firstName?.type} */}
           {errorsLog.firstName?.type === "pattern" && (
             <p role="alert" style={{ color: "red" }}>
               Invalid first name
@@ -195,7 +174,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             placeholder="Smith"
             id="lastName"
             {...register("lastName", { required: "Last name is required!" })}
-            required
           />
           <label className={styles.label} htmlFor="email">
             Email:
@@ -205,7 +183,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             placeholder="test@test.com"
             id="email"
             {...register("email", { required: "Email is required!" })}
-            required
           />
           <label className={styles.label} htmlFor="birthDate">
             Date of birth:
@@ -214,27 +191,17 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
             type="date"
             id="birthDate"
             {...register("birthDate", {
-              required: "Date is required!",
+              // required: "Date is required!",
               // pattern:
               //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
             })}
             aria-invalid={errorsLog.birthDate ? "true" : "false"}
           />
-          {/* {errorsLog.birthDate?.type === "pattern" && (
-            <p role="alert" style={{ color: "red" }}>
-              Invalid birth date
-            </p>
-          )}
-          {errorsLog.birthDate?.type === "required" && (
-            <p role="alert" style={{ color: "red" }}>
-              birth date is required
-            </p>
-          )} */}
 
           <label className={styles.label} htmlFor="group">
             Group:
           </label>
-          <select id="group" {...register("group")} required>
+          <select id="group" {...register("group")}>
             <option value="" hidden>
               --Please choose an option--
             </option>
@@ -283,7 +250,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
           <input
             type="file"
             id="file"
-            // data-testid="file"
             accept="image/*"
             {...register("file")}
             onChange={(event) => handleImageUpload(event)}
@@ -296,7 +262,6 @@ const NewEmployeForm = ({ addNewEmploye }: INewEmployeFormProps) => {
               ? Object.values(errors).join(", ")
               : ""}
           </div>
-          {/* <div>{test}</div> */}
         </form>
       )}
     </>

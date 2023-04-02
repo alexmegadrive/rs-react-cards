@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NewEmployeForm from "../NewEmployeForm/NewEmployeForm";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 
@@ -6,22 +6,17 @@ interface IAddEmployeProps {
   addNewEmploye: (e: IEmployeCard) => void;
 }
 
-export default class AddEmploye extends React.Component<IAddEmployeProps> {
-  state = {
-    isFormShown: false,
-  };
+const AddEmploye: React.FC<IAddEmployeProps> = ({ addNewEmploye }) => {
+  const [isFormShown, setIsFormShown] = useState<boolean>(false);
+  return (
+    <>
+      {isFormShown ? (
+        <NewEmployeForm addNewEmploye={addNewEmploye} />
+      ) : (
+        <button onClick={() => setIsFormShown(true)}>New employe</button>
+      )}
+    </>
+  );
+};
 
-  render() {
-    return (
-      <>
-        {this.state.isFormShown ? (
-          <NewEmployeForm addNewEmploye={this.props.addNewEmploye} />
-        ) : (
-          <button onClick={() => this.setState({ isFormShown: true })}>
-            New employe
-          </button>
-        )}
-      </>
-    );
-  }
-}
+export default AddEmploye;
