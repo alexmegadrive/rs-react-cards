@@ -1,16 +1,18 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
 import NewEmployeForm from "./NewEmployeForm";
 import { describe, test, expect, beforeEach } from "vitest";
+import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import Employees from "../../../Pages/Employees/Employees";
 import userEvent from "@testing-library/user-event";
 
 describe("Form test", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let file: File;
-
   beforeEach(() => {
     file = new File(["test"], "test.png", { type: "image/png" });
-    render(<NewEmployeForm addNewEmploye={Employees.addNewEmploye} />);
+    render(
+      <NewEmployeForm addNewEmploye={(e: IEmployeCard) => console.log(e)} />
+    );
   });
 
   test("should render form", () => {
@@ -65,6 +67,6 @@ describe("Form test", () => {
     await userEvent.type(emailInput, "a@a.test");
     await userEvent.type(dateInput, "1990-01-01");
     await userEvent.click(previewBtn);
-    // expect(screen.getByText(/Preview new employe/i)).toBeDefined();
+    expect(screen.getByText(/Preview/i)).toBeDefined();
   });
 });
