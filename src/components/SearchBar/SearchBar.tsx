@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./searchBar.scss";
 
 interface ISearchBarProps {
@@ -9,13 +9,20 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   const [value, setValue] = useState<string>(
     localStorage.getItem("search") || ""
   );
+  const [isLoaded, setIsLoaded] = useState(false);
+  const searchValue = useRef("");
 
   useEffect(() => {
+    searchValue.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    setIsLoaded(true);
     filterProducts(value);
     return () => {
-      localStorage["search"] = value as string;
+      localStorage["search"] = searchValue.current as string;
     };
-  }, [value]);
+  }, []);
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
