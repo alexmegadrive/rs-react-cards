@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
@@ -9,6 +9,14 @@ interface INewEmployeFormProps {
   addNewEmploye: (e: IEmployeCard) => void;
 }
 
+interface IFormData {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  file: File[];
+  email: string;
+  group: string;
+}
 interface IErrors {
   email?: string;
   firstName?: string;
@@ -23,7 +31,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     handleSubmit,
     reset,
     formState: { errors: errorsLog },
-  } = useForm();
+  } = useForm<IFormData>();
   const [isPreviewActive, setIsPreviewActive] = useState<boolean>(false);
   const [errors, setErrors] = useState<IErrors>({});
   const [newEmploye, setNewEmploye] = useState<IEmployeCard>({
@@ -42,7 +50,11 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     setIsPreviewActive(false);
   };
 
-  const handleSubmitForm = async (data) => {
+  // const handleSubmitter = handleSubmit(dataLIfo)
+
+  const handleSubmitForm: SubmitHandler<IFormData> = async (
+    data: IFormData
+  ) => {
     let src = "";
     if (data.file[0]) {
       src = await URL.createObjectURL(data.file[0]);
@@ -238,7 +250,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
                 <input
                   type="checkbox"
                   id="category"
-                  {...register(`${category}`)}
+                  // {...register(`${category as string}`)}
                 ></input>
                 <label htmlFor={category}>{category}</label>
               </div>
