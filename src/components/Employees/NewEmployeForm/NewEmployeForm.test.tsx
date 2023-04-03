@@ -2,7 +2,6 @@ import { render, screen, waitFor, act } from "@testing-library/react";
 import NewEmployeForm from "./NewEmployeForm";
 import { describe, test, expect, beforeEach } from "vitest";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
-import Employees from "../../../Pages/Employees/Employees";
 import userEvent from "@testing-library/user-event";
 
 describe("Form test", () => {
