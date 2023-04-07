@@ -26,7 +26,7 @@ function App() {
         element: <Page404 />,
       },
     ],
-    { basename: "/rs-react-cards" }
+    { basename: "/rs-react-cards/" }
   );
 
   return <RouterProvider router={router} />;

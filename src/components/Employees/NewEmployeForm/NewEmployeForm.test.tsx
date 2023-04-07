@@ -1,6 +1,6 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
 import NewEmployeForm from "./NewEmployeForm";
-import { describe, test, expect, beforeEach } from "vitest";
+import { describe, test, expect, beforeEach, vi } from "vitest";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import userEvent from "@testing-library/user-event";
 

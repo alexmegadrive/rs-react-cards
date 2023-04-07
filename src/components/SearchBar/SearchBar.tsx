@@ -9,7 +9,6 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   const [value, setValue] = useState<string>(
     localStorage.getItem("search") || ""
   );
-  const [isLoaded, setIsLoaded] = useState(false);
   const searchValue = useRef("");
 
   useEffect(() => {
@@ -17,11 +16,11 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   }, [value]);
 
   useEffect(() => {
-    setIsLoaded(true);
     filterProducts(value);
     return () => {
       localStorage["search"] = searchValue.current as string;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
