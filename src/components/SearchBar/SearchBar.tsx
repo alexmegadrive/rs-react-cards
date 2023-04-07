@@ -1,44 +1,45 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./searchBar.scss";
-// import I
 
 interface ISearchBarProps {
   filterProducts: (value: string) => void | undefined;
 }
 
-class SearchBar extends React.Component<ISearchBarProps> {
-  state = {
-    value: localStorage.getItem("search")
-      ? (localStorage.getItem("search") as string)
-      : "",
-  };
-  handleChangeInput = this.handleChange.bind(this);
+const SearchBar = ({ filterProducts }: ISearchBarProps) => {
+  const [value, setValue] = useState<string>(
+    localStorage.getItem("search") || ""
+  );
+  const searchValue = useRef("");
 
-  componentDidMount() {
-    this.props.filterProducts(this.state.value);
-  }
-  componentWillUnmount() {
-    localStorage.setItem("search", this.state.value as string);
-  }
+  useEffect(() => {
+    searchValue.current = value;
+  }, [value]);
 
-  async handleChange(e: React.SyntheticEvent) {
+  useEffect(() => {
+    filterProducts(value);
+    return () => {
+      localStorage["search"] = searchValue.current as string;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
-    this.setState({ value: input.value });
-    this.props.filterProducts(input.value);
-  }
-  render() {
-    return (
-      <div className="search">
-        <input
-          type="text"
-          className="search__input"
-          value={this.state.value}
-          onChange={this.handleChangeInput}
-        ></input>
-        <div className="search__button"></div>
-      </div>
-    );
-  }
-}
+    setValue(input.value);
+    filterProducts(input.value);
+  };
+
+  return (
+    <div className="search">
+      <input
+        type="text"
+        className="search__input"
+        value={value}
+        onChange={handleChange}
+      ></input>
+      <div className="search__button"></div>
+    </div>
+  );
+};
 
 export default SearchBar;

@@ -1,22 +1,23 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  queryByAttribute,
-} from "@testing-library/react";
-import { products } from "../data/products";
-import SearchBar from "../components/SearchBar/SearchBar";
-import Header from "../components/Header/Header";
-import CardsList from "../components/CardsList/CardsList";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { products } from "../src/data/products";
+import SearchBar from "../src/components/SearchBar/SearchBar";
+import Header from "../src/components/Header/Header";
+import CardsList from "../src/components/CardsList/CardsList";
 
 describe("SearchBar test", () => {
   test("Should render Search component", () => {
     render(<SearchBar filterProducts={(v: string) => console.log(1)} />);
     const search = screen.getByRole("textbox") as HTMLFormElement;
     expect(search).toBeDefined();
+  });
+  test("Input value changes", () => {
+    render(<SearchBar filterProducts={(v: string) => console.log(1)} />);
+    const search = screen.getByRole("textbox") as HTMLFormElement;
+    fireEvent.change(search, { target: { value: "TeSt" } });
+    expect(search.value).toMatch(/test/i);
   });
 });
 
