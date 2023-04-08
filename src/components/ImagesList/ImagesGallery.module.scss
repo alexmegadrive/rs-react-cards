@@ -55,8 +55,8 @@
 
 .modal {
   padding: 20px;
-  width: 600px;
-  height: 400px;
+  width: 900px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -67,12 +67,12 @@
   &__imageWrapper {
     display: flex;
     flex-direction: column;
-    height: 300px;
+    height: 500px;
     width: 100%;
   }
   &__image {
     border-radius: 10px;
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
   }
