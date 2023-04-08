@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { IImageSearchReturn } from "../../api/imageSearchApi";
 import "./searchBar.scss";
 
 interface ISearchBarProps {
-  filterProducts: (value: string) => void | undefined;
+  callback: (value: string) => void | undefined | Promise<void>;
+  queryKey: string;
 }
 
-const SearchBar = ({ filterProducts }: ISearchBarProps) => {
+const SearchBar = ({ callback, queryKey }: ISearchBarProps) => {
   const [value, setValue] = useState<string>(
     localStorage.getItem("search") || ""
   );
@@ -16,9 +18,9 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   }, [value]);
 
   useEffect(() => {
-    filterProducts(value);
+    callback(value);
     return () => {
-      localStorage["search"] = searchValue.current as string;
+      localStorage[queryKey] = searchValue.current as string;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -26,7 +28,7 @@ const SearchBar = ({ filterProducts }: ISearchBarProps) => {
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
     setValue(input.value);
-    filterProducts(input.value);
+    callback(input.value);
   };
 
   return (

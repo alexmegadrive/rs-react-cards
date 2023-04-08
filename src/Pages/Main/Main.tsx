@@ -21,7 +21,7 @@ const Main: React.FC = () => {
     <>
       <Header />
       <main className="main">
-        <SearchBar filterProducts={filterProducts} />
+        <SearchBar callback={filterProducts} queryKey="productsQuery" />
         <CardsList products={filteredProducts} />
       </main>
     </>

@@ -5,6 +5,7 @@ import About from "./Pages/About/About";
 import Page404 from "./Pages/Page404/Page404";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Employees from "./Pages/Employees/Employees";
+import ImagesGallery from "./Pages/ImagesGallery";
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +21,10 @@ function App() {
       {
         path: "/employees",
         element: <Employees />,
+      },
+      {
+        path: "/imagesearch",
+        element: <ImagesGallery />,
       },
       {
         path: "*",

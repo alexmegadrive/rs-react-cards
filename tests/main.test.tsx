@@ -9,12 +9,12 @@ import CardsList from "../src/components/CardsList/CardsList";
 
 describe("SearchBar test", () => {
   test("Should render Search component", () => {
-    render(<SearchBar filterProducts={(v: string) => console.log(1)} />);
+    render(<SearchBar callback={(v: string) => console.log(1)} queryKey="" />);
     const search = screen.getByRole("textbox") as HTMLFormElement;
     expect(search).toBeDefined();
   });
   test("Input value changes", () => {
-    render(<SearchBar filterProducts={(v: string) => console.log(1)} />);
+    render(<SearchBar callback={(v: string) => console.log(1)} queryKey="" />);
     const search = screen.getByRole("textbox") as HTMLFormElement;
     fireEvent.change(search, { target: { value: "TeSt" } });
     expect(search.value).toMatch(/test/i);

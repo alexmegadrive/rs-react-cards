@@ -17,6 +17,7 @@ const Header: React.FC<IHeader> = ({}) => {
       <NavigationLink destination={"/contacts"} text={"Contacts"} />
       <NavigationLink destination={"/support"} text={"Support"} />
       <NavigationLink destination={"/employees"} text={"Employees"} />
+      <NavigationLink destination={"/imagesearch"} text={"Image API"} />
     </header>
   );
 };
