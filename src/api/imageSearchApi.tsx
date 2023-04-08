@@ -46,24 +46,52 @@ export interface IImageSearchReturn {
 }
 
 export const imageSearchApiCall = async (query: string, page = 1) => {
-  const response = await fetch(
-    `${baseURL}?key=${APIKey}&q=${query}&per_page=10&page=${page}`
-  )
-    .then(async (response) => {
-      const result: IImageResponseResult = await response.json();
-      const images = result.hits.map((image: IImageResponseItem) => ({
-        url: image.largeImageURL || "",
-        id: image.id || -1,
-        alt: image.tags || "",
-        author: image.user || "",
-      }));
-      const total = result.total || 0;
-      return { images, total };
-    })
-    .catch((error) => {
-      console.log("error", error);
-      return { images: [], total: 0, error: true };
-    });
+  try {
+    const response = await fetch(
+      `${baseURL}?key=${APIKey}&q=${query}&per_page=10&page=${page}`
+    );
+    const result: IImageResponseResult = await response.json();
+    const images = result.hits.map((image: IImageResponseItem) => ({
+      url: image.largeImageURL || "",
+      id: image.id || -1,
+      alt: image.tags || "",
+      author: image.user || "",
+    }));
+    const total = result.total || 0;
+    return { images, total };
+  } catch (error) {
+    console.log("error", error);
+    return { images: [], total: 0, error: true };
+  }
 
-  return response;
+  //   .then(async (response) => {
+
+  //   })
+  //   .catch((error) => {
+
+  //   });
+
+  // return response;
 };
+// export const imageSearchApiCall = async (query: string, page = 1) => {
+//   const response = await fetch(
+//     `${baseURL}?key=${APIKey}&q=${query}&per_page=10&page=${page}`
+//   )
+//     .then(async (response) => {
+//       const result: IImageResponseResult = await response.json();
+//       const images = result.hits.map((image: IImageResponseItem) => ({
+//         url: image.largeImageURL || "",
+//         id: image.id || -1,
+//         alt: image.tags || "",
+//         author: image.user || "",
+//       }));
+//       const total = result.total || 0;
+//       return { images, total };
+//     })
+//     .catch((error) => {
+//       console.log("error", error);
+//       return { images: [], total: 0, error: true };
+//     });
+
+//   return response;
+// };

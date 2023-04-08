@@ -7,15 +7,19 @@ import { imageSearchApiCall, IImageItem } from "../../api/imageSearchApi";
 const ImagesGallery = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const [images, setImages] = useState<IImageItem[]>([]);
 
   const getImages = async (imageName: string) => {
     setLoading(true);
 
-    const response = await imageSearchApiCall(imageName);
-    if ("error" in response) {
-      setError(true);
-    } else setImages(response.images);
+    imageSearchApiCall(imageName)
+      .then((res) => setImages(res.images))
+      .catch((e) => {
+        setError(true);
+        console.log("error", error);
+      });
+
     setLoading(false);
   };
 
