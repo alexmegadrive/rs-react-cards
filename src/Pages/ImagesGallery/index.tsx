@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { QueryClient } from "react-query";
 import Header from "../../components/Header/Header";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ImagesList from "../../components/ImagesList";
@@ -12,15 +13,13 @@ const ImagesGallery = () => {
 
   const getImages = async (imageName: string) => {
     setLoading(true);
-
     imageSearchApiCall(imageName)
       .then((res) => setImages(res.images))
-      .catch((e) => {
+      .catch((e: Error) => {
         setError(true);
-        console.log("error", error);
-      });
-
-    setLoading(false);
+        console.log("error", e);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
