@@ -1,25 +1,16 @@
 import React, { useState } from "react";
 
 import styles from "./ImagesGallery.module.scss";
-import LoadingIndicator from "../LoadingIndicator";
 import { IImageItem } from "../../api/imageSearchApi";
 import ImageModal from "./ImageModal/ImageModal";
 
 type ImagesGalleryProps = {
   images: IImageItem[];
-  loading: boolean;
+  loading?: boolean;
 };
 const ImagesList: React.FC<ImagesGalleryProps> = ({ images, loading }) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [currentImage, setCurrentImage] = useState<IImageItem>();
-
-  if (loading) {
-    return (
-      <div className={styles.loadingIndicatorWrapper}>
-        <LoadingIndicator />
-      </div>
-    );
-  }
 
   return (
     <div className={styles.container}>

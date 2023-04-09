@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { debounce } from "debounce";
+import useDebounce from "../../hooks/useDebounce";
 import "./searchBar.scss";
 
 interface ISearchBarProps {
@@ -8,26 +10,25 @@ interface ISearchBarProps {
 
 const SearchBar = ({ callback, queryKey }: ISearchBarProps) => {
   const [value, setValue] = useState<string>(
-    localStorage.getItem("search") || ""
+    localStorage.getItem(queryKey) || ""
   );
   const searchValue = useRef("");
+  const debouncedValue = useDebounce<string>(value, 500);
 
   useEffect(() => {
     searchValue.current = value;
+    return () => {
+      localStorage[queryKey] = searchValue.current as string;
+    };
   }, [value]);
 
   useEffect(() => {
     callback(value);
-    return () => {
-      localStorage[queryKey] = searchValue.current as string;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [debouncedValue]);
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
     setValue(input.value);
-    callback(input.value);
   };
 
   return (

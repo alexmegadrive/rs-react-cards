@@ -45,10 +45,14 @@ export interface IImageSearchReturn {
   error?: boolean;
 }
 
-export const imageSearchApiCall = async (query: string, page = 1) => {
+export interface IQueryParams {
+  query: string;
+  page: number;
+}
+export const imageSearchApiCall = async (queryParams: IQueryParams) => {
   try {
     const response = await fetch(
-      `${baseURL}?key=${APIKey}&q=${query}&per_page=10&page=${page}`
+      `${baseURL}?key=${APIKey}&q=${queryParams.query}&per_page=10&page=${queryParams.page}`
     );
     const result: IImageResponseResult = await response.json();
     const images = result.hits.map((image: IImageResponseItem) => ({
@@ -57,8 +61,7 @@ export const imageSearchApiCall = async (query: string, page = 1) => {
       alt: image.tags || "",
       author: image.user || "",
     }));
-    const total = result.total || 0;
-    return { images, total } as IImageSearchReturn;
+    return { images, total: result.totalHits } as IImageSearchReturn;
   } catch (error) {
     console.log("error", error);
     return { images: [], total: 0, error: true } as IImageSearchReturn;
