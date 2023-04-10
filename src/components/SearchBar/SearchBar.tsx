@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { debounce } from "debounce";
 import useDebounce from "../../hooks/useDebounce";
 import "./searchBar.scss";
 
