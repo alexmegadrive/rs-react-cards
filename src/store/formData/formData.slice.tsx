@@ -19,5 +19,6 @@ export const formDataSlice = createSlice({
   },
 });
 export const { setFormData } = formDataSlice.actions;
+export const { actions: formDataActions } = formDataSlice;
 
 export default formDataSlice.reducer;

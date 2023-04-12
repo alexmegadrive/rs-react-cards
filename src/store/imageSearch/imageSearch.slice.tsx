@@ -19,5 +19,6 @@ export const imageSearchSlice = createSlice({
   },
 });
 export const { setSearchQuery } = imageSearchSlice.actions;
+export const { actions: imageSearchActions } = imageSearchSlice;
 
 export default imageSearchSlice.reducer;
