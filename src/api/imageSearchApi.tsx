@@ -61,6 +61,7 @@ export const imageSearchApiCall = async (queryParams: IQueryParams) => {
       alt: image.tags || "",
       author: image.user || "",
     }));
+
     return { images, total: result.totalHits } as IImageSearchReturn;
   } catch (error) {
     console.log("error", error);
