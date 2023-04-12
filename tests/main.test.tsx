@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { products } from "../src/data/products";
 import SearchBar from "../src/components/SearchBar/SearchBar";
@@ -8,13 +8,15 @@ import Header from "../src/components/Header/Header";
 import CardsList from "../src/components/CardsList/CardsList";
 
 describe("SearchBar test", () => {
+  const mockFn = vi.fn();
+
   test("Should render Search component", () => {
-    render(<SearchBar callback={(v: string) => console.log(1)} queryKey="" />);
+    render(<SearchBar callback={(v: string) => mockFn(v)} queryKey="" />);
     const search = screen.getByRole("textbox") as HTMLFormElement;
     expect(search).toBeDefined();
   });
   test("Input value changes", () => {
-    render(<SearchBar callback={(v: string) => console.log(1)} queryKey="" />);
+    render(<SearchBar callback={(v: string) => mockFn(v)} queryKey="" />);
     const search = screen.getByRole("textbox") as HTMLFormElement;
     fireEvent.change(search, { target: { value: "TeSt" } });
     expect(search.value).toMatch(/test/i);

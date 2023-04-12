@@ -8,7 +8,7 @@ type ImagesGalleryProps = {
   images: IImageItem[];
   loading?: boolean;
 };
-const ImagesList: React.FC<ImagesGalleryProps> = ({ images, loading }) => {
+const ImagesList: React.FC<ImagesGalleryProps> = ({ images }) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [currentImage, setCurrentImage] = useState<IImageItem>();
 
