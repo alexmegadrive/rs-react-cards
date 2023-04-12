@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface FormDataState {
-  query: string;
+  formData: string;
 }
 
 const initialState: FormDataState = {
-  query: "",
+  formData: "",
 };
 
 export const formDataSlice = createSlice({
@@ -14,7 +14,7 @@ export const formDataSlice = createSlice({
   initialState,
   reducers: {
     setFormData: (state, action: PayloadAction<string>) => {
-      state.query = action.payload;
+      state.formData = action.payload;
     },
   },
 });

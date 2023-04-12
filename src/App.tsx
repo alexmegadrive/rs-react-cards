@@ -12,7 +12,7 @@ function App() {
     [
       {
         path: "/",
-        element: <Main />,
+        element: <ImagesGallery />,
       },
       {
         path: "/about",
@@ -22,9 +22,10 @@ function App() {
         path: "/employees",
         element: <Employees />,
       },
+
       {
-        path: "/imagesearch",
-        element: <ImagesGallery />,
+        path: "/Products",
+        element: <Main />,
       },
       {
         path: "*",
