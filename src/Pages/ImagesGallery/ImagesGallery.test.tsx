@@ -37,11 +37,6 @@ describe("ImagesGallery render", () => {
       }),
     }));
 
-    render(
-      <BrowserRouter>
-        <ImagesGallery />
-      </BrowserRouter>
-    );
     const cards = screen.getAllByTestId("image-card");
 
     expect(cards).toHaveLength(2);
