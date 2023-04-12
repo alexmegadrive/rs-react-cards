@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 /tests/coverage
 /tests/.gitignore
+/src/Pages/ImagesGallery/ImagesGallery.text.tsx
