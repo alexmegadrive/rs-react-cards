@@ -18,6 +18,7 @@ const ImagesList: React.FC<ImagesGalleryProps> = ({ images }) => {
         images.map((image: IImageItem, index) => (
           <div
             key={index}
+            data-testid="image-card"
             className={styles.imageCardWrapper}
             onClick={() => {
               setCurrentImage(image);
