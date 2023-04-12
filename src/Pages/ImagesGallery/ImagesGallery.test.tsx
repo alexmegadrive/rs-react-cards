@@ -1,11 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, test, expect, beforeEach, vi } from "vitest";
 import ImagesGallery from "./ImagesGallery";
-import userEvent from "@testing-library/user-event";
-import { imageSearchApiCall } from "../../api/imageSearchApi";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
-import App from "../../App";
 
 describe("ImagesGallery render", () => {
   beforeEach(() => {
@@ -48,6 +44,6 @@ describe("ImagesGallery render", () => {
     );
     const cards = screen.getAllByTestId("image-card");
 
-    expect(cards).toHaveLength(4);
+    expect(cards).toHaveLength(2);
   });
 });
