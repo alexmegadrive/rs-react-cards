@@ -4,20 +4,31 @@ import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 const categories = ["laptops", "smartphones", "tv", "computers", "appliance"];
+import { RootReducer, RootState } from "../../../store/store";
+import { useSelector } from "react-redux";
+import { validateForm } from "../../../utils/validateForm";
+import { useActions } from "../../../hooks/useActions";
 
 interface INewEmployeFormProps {
   addNewEmploye: (e: IEmployeCard) => void;
 }
 
-interface IFormData {
+export interface IFormData {
   firstName: string;
   lastName: string;
   birthDate: string;
   file: File[];
   email: string;
   group: string;
+  category: {
+    appliance: boolean;
+    computers: boolean;
+    laptops: boolean;
+    smartphones: boolean;
+    tv: boolean;
+  };
 }
-interface IErrors {
+export interface IErrors {
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -26,12 +37,22 @@ interface IErrors {
 }
 
 const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
+  const formDataState = useSelector<RootState>(
+    (state: RootState) => state.form
+  );
+  const { setFormData } = useActions();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors: errorsLog },
-  } = useForm<IFormData>();
+    getValues,
+  } = useForm<IFormData>({
+    defaultValues: {
+      ...formDataState.formData,
+    },
+  });
   const [isPreviewActive, setIsPreviewActive] = useState<boolean>(false);
   const [errors, setErrors] = useState<IErrors>({});
   const [newEmploye, setNewEmploye] = useState<IEmployeCard>({
@@ -50,7 +71,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     setIsPreviewActive(false);
   };
 
-  // const handleSubmitter = handleSubmit(dataLIfo)
+  // console.log("storeSearchValue :", formDataState);
 
   const handleSubmitForm: SubmitHandler<IFormData> = async (
     data: IFormData
@@ -73,7 +94,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     };
 
     setNewEmploye(newEmployeCard);
-    if (validateForm(newEmployeCard)) {
+    if (validateForm(newEmployeCard, setErrors)) {
       setIsPreviewActive(true);
       reset();
     }
@@ -94,50 +115,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
         setNewEmploye({ ...newEmployeCard, img: src });
       }
     }
-  };
-
-  const validateForm = (newEmploye: IEmployeCard) => {
-    const { email, firstName, lastName, birthDate: date, img } = newEmploye;
-    const errorsLog: IErrors = {};
-    let isValid = true;
-
-    if (!email) {
-      errorsLog.email = "Email is required";
-      isValid = false;
-    } else delete errorsLog.email;
-
-    if (!img) {
-      errorsLog.img = "Image is required";
-      isValid = false;
-    } else delete errorsLog.img;
-
-    if (email && !/\S+@\S+\.\S+/.test(email)) {
-      errorsLog.email = "Invalid email address";
-      isValid = false;
-    } else delete errorsLog.email;
-
-    if (lastName && !/^([A-Za-zА-Яа-яЁё]{3,})$/.test(lastName)) {
-      errorsLog.lastName = "Invalid last name";
-      isValid = false;
-    } else delete errorsLog.lastName;
-
-    if (firstName && !/^([A-Za-zА-Яа-яЁё]{3,})$/.test(firstName)) {
-      errorsLog.firstName = "Invalid first name";
-    } else delete errorsLog.firstName;
-
-    if (
-      (date && Number(date.split("-")[0]) < 1900) ||
-      (date && Number(date.split("-")[0]) > 2020) ||
-      (date && !date.length) ||
-      !date
-    ) {
-      errorsLog.date = "Invalid date";
-      isValid = false;
-    } else delete errorsLog.date;
-
-    setErrors(errorsLog);
-
-    return isValid;
   };
 
   return (
@@ -163,6 +140,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             placeholder="John"
             id="firstName"
             {...register("firstName", {
+              onChange: () => setFormData(getValues()),
               required: "Name is required!",
               pattern: /^([A-Za-zА-Яа-яЁё]{3,})$/,
             })}
@@ -186,7 +164,10 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             type="text"
             placeholder="Smith"
             id="lastName"
-            {...register("lastName", { required: "Last name is required!" })}
+            {...register("lastName", {
+              required: "Last name is required!",
+              onChange: () => setFormData(getValues()),
+            })}
           />
           <label className={styles.label} htmlFor="email">
             Email:
@@ -195,7 +176,10 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             type="email"
             placeholder="test@test.com"
             id="email"
-            {...register("email", { required: "Email is required!" })}
+            {...register("email", {
+              required: "Email is required!",
+              onChange: () => setFormData(getValues()),
+            })}
           />
           <label className={styles.label} htmlFor="birthDate">
             Date of birth:
@@ -204,6 +188,8 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             type="date"
             id="birthDate"
             {...register("birthDate", {
+              onChange: () => setFormData(getValues()),
+
               // required: "Date is required!",
               // pattern:
               //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
@@ -214,7 +200,11 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
           <label className={styles.label} htmlFor="group">
             Group:
           </label>
-          <select id="group" {...register("group")}>
+          <select
+            id="group"
+            {...(register("group"),
+            { onChange: () => setFormData(getValues()) })}
+          >
             <option value="" hidden>
               --Please choose an option--
             </option>
@@ -244,13 +234,19 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
           <label className={styles.label} htmlFor="Access categories">
             Access categories
           </label>
+
           {categories.map((category, index) => {
             return (
               <div key={index}>
                 <input
                   type="checkbox"
                   id="category"
-                  // {...register(`${category as string}`)}
+                  {...register(`category.${category}`, {
+                    onChange: (e) => {
+                      console.log("test");
+                      setFormData(getValues());
+                    },
+                  })}
                 ></input>
                 <label htmlFor={category}>{category}</label>
               </div>
@@ -264,7 +260,8 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             type="file"
             id="file"
             accept="image/*"
-            {...register("file")}
+            {...(register("file"),
+            { onChange: () => setFormData(getValues()) })}
             onChange={(event) => handleImageUpload(event)}
           />
 

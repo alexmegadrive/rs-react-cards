@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import useDebounce from "../../hooks/useDebounce";
 import "./searchBar.scss";
+import { RootReducer } from "../../store/store";
 
 interface ISearchBarProps {
   callback: (value: string) => void | undefined | Promise<void>;
@@ -17,7 +18,7 @@ const SearchBar = ({ callback, queryKey }: ISearchBarProps) => {
   const searchValue = useRef("");
   const debouncedValue = useDebounce<string>(value, 500);
 
-  const storeSearchQuery = useSelector((state) => state.search);
+  const storeSearchQuery = useSelector<RootReducer>((state) => state.search);
   console.log("storeSearchValue :", storeSearchQuery);
   // const storeState = useSelector((state) => state);
   // console.log("storeState :", storeState);
