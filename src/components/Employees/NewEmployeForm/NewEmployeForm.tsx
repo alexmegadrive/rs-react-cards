@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 const categories = ["laptops", "smartphones", "tv", "computers", "appliance"];
-import { RootReducer, RootState } from "../../../store/store";
+import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { validateForm } from "../../../utils/validateForm";
 import { useActions } from "../../../hooks/useActions";
@@ -27,6 +27,7 @@ export interface IFormData {
     smartphones: boolean;
     tv: boolean;
   };
+  // testSelect: object;
 }
 export interface IErrors {
   email?: string;
@@ -48,6 +49,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     reset,
     formState: { errors: errorsLog },
     getValues,
+    control,
   } = useForm<IFormData>({
     defaultValues: {
       ...formDataState.formData,
@@ -200,10 +202,14 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
           <label className={styles.label} htmlFor="group">
             Group:
           </label>
+
           <select
             id="group"
-            {...(register("group"),
-            { onChange: () => setFormData(getValues()) })}
+            {...register("group", {
+              onChange: () => {
+                setFormData(getValues());
+              },
+            })}
           >
             <option value="" hidden>
               --Please choose an option--
@@ -213,6 +219,27 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             <option value="Administration">Administration</option>
             <option value="Other">Other</option>
           </select>
+
+          {/* <select
+            className="custom-select"
+            id="selectmethod"
+            defaultValue=""
+            // name="group"
+            {...register("group", {
+              onChange: () => {
+                setFormData(getValues());
+              },
+            })}
+          >
+            <option value="" hidden>
+              --Please choose an option--
+            </option>
+            <option value="Manager">Manager</option>
+            <option value="Sales">Sales</option>
+            <option value="Administration">Administration</option>
+            <option value="Other">Other</option>
+          </select> */}
+
           <label className={styles.label} htmlFor="notifications">
             Notifications:
           </label>
@@ -242,8 +269,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
                   type="checkbox"
                   id="category"
                   {...register(`category.${category}`, {
-                    onChange: (e) => {
-                      console.log("test");
+                    onChange: () => {
                       setFormData(getValues());
                     },
                   })}
