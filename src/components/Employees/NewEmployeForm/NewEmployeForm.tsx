@@ -3,9 +3,14 @@ import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
-const categories = ["laptops", "smartphones", "tv", "computers", "appliance"];
-import { RootState } from "../../../store/store";
-import { useSelector } from "react-redux";
+const categories = [
+  "laptops",
+  "smartphones",
+  "tv",
+  "computers",
+  "appliance",
+] as const;
+import { RootState, useAppSelector } from "../../../store/store";
 import { validateForm } from "../../../utils/validateForm";
 import { useActions } from "../../../hooks/useActions";
 
@@ -27,7 +32,6 @@ export interface IFormData {
     smartphones: boolean;
     tv: boolean;
   };
-  // testSelect: object;
 }
 export interface IErrors {
   email?: string;
@@ -38,9 +42,7 @@ export interface IErrors {
 }
 
 const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
-  const formDataState = useSelector<RootState>(
-    (state: RootState) => state.form
-  );
+  const formDataState = useAppSelector((state: RootState) => state.form);
   const { setFormData } = useActions();
 
   const {
@@ -49,7 +51,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     reset,
     formState: { errors: errorsLog },
     getValues,
-    control,
   } = useForm<IFormData>({
     defaultValues: {
       ...formDataState.formData,
@@ -191,7 +192,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             id="birthDate"
             {...register("birthDate", {
               onChange: () => setFormData(getValues()),
-
               // required: "Date is required!",
               // pattern:
               //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
@@ -219,26 +219,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
             <option value="Administration">Administration</option>
             <option value="Other">Other</option>
           </select>
-
-          {/* <select
-            className="custom-select"
-            id="selectmethod"
-            defaultValue=""
-            // name="group"
-            {...register("group", {
-              onChange: () => {
-                setFormData(getValues());
-              },
-            })}
-          >
-            <option value="" hidden>
-              --Please choose an option--
-            </option>
-            <option value="Manager">Manager</option>
-            <option value="Sales">Sales</option>
-            <option value="Administration">Administration</option>
-            <option value="Other">Other</option>
-          </select> */}
 
           <label className={styles.label} htmlFor="notifications">
             Notifications:

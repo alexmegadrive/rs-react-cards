@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import imageSearchReducer from "./imageSearch/imageSearch.slice";
 import formDataReducer from "./formData/formData.slice";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const reducers = combineReducers({
   search: imageSearchReducer,
@@ -23,3 +24,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export type RootReducer = ReturnType<typeof reducers>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
