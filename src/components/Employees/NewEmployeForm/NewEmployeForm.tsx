@@ -40,10 +40,8 @@ export interface IErrors {
 }
 
 const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
-  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
-
   const formDataState = useAppSelector((state: RootState) => state.form);
-  const { setFormData, setImage, resetFormData } = useActions();
+  const { setFormData, setImage } = useActions();
 
   const {
     register,
@@ -53,7 +51,7 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     getValues,
   } = useForm<IFormData>({
     defaultValues: {
-      ...formDataState.formData,
+      ...formDataState,
     },
   });
   const [isPreviewActive, setIsPreviewActive] = useState<boolean>(false);
@@ -73,22 +71,10 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
   const hidePreview = () => {
     setIsPreviewActive(false);
   };
-  useEffect(() => {
-    // reset({ firstName: "" }, { keepValues: false, keepDirty: true });
-    // resetFormData();
-    // console.log("getValues :", getValues());
-    // console.log("redux :", formDataState.formData);
-    // setIsSubmitSuccessful(false);
-  }, [isSubmitSuccessful, reset]);
 
   const handleSubmitForm: SubmitHandler<IFormData> = async (
     data: IFormData
   ) => {
-    // let src = "";
-    // if (data.file[0]) {
-    //   src = await URL.createObjectURL(data.file[0]);
-    // }
-
     const newEmployeCard: IEmployeCard = {
       id: Date.now(),
       firstName: data.firstName,
@@ -100,18 +86,12 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
       accessCategories: Object.keys(data.category).filter(
         (el) => data.category[el as keyof typeof data.category]
       ),
-      img: formDataState.formData.img,
+      img: formDataState.img,
     };
-    console.log("test");
-
-    console.log("newEmployeCard :", newEmployeCard);
 
     setNewEmploye(newEmployeCard);
     if (validateForm(newEmployeCard, setErrors)) {
       setIsPreviewActive(true);
-      // resetFormData();
-
-      // reset({});
     }
     return data;
   };
@@ -127,11 +107,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
         if (preview.current) preview.current.src = src;
         const newEmployeCard = { ...newEmploye, img: src };
         await setNewEmploye(newEmployeCard);
-        console.log("{...formDataState.formData, img: src } :", {
-          ...formDataState.formData,
-          img: src,
-        });
-        // setFormData({ ...formDataState.formData, img: src });
         setImage(src);
         setNewEmploye({ ...newEmployeCard, img: src });
       }
@@ -294,69 +269,22 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
               Upload a photo
             </label>
 
-            {/* {formDataState.formData.img ? (
-            <>
-              <img
-                src={formDataState.formData.img}
-                className={
-                  formDataState.formData.img
-                    ? `${styles.preview_active} ${styles.preview}`
-                    : styles.preview
-                }
-                alt="preview"
-                ref={preview}
-              />
-              <input
-                type="file"
-                id="file"
-                accept="image/*"
-                {...register("file")}
-                onChange={(event) => handleImageUpload(event)}
-              />
-            </>
-          ) : (
-            <>
-              <input
-                type="file"
-                id="file"
-                accept="image/*"
-                {...register("file")}
-                onChange={(event) => handleImageUpload(event)}
-              />
-              <input
-                type="file"
-                id="file"
-                accept="image/*"
-                {...register("file")}
-                onChange={(event) => handleImageUpload(event)}
-              />
-            </>
-          )} */}
             <input
               type="file"
               id="file"
               accept="image/*"
-              {...register("file")}
-              onChange={(event) => handleImageUpload(event)}
+              {...register("file", {
+                onChange: () => {
+                  setFormData(getValues());
+                },
+              })}
+              // onChange={(event) => handleImageUpload(event)}
             />
-            {/* {formDataState.formData.img ? (
-              <img
-                src={formDataState.formData.img}
-                className={
-                  formDataState.formData.img
-                    ? `${styles.preview_active} ${styles.preview}`
-                    : styles.preview
-                }
-                alt="preview"
-                ref={preview}
-              />
-            ) : (
-              ""
-            )} */}
+
             <img
-              src={formDataState.formData.img}
+              src={formDataState.img}
               className={
-                formDataState.formData.img
+                formDataState.img
                   ? `${styles.preview_active} ${styles.preview}`
                   : styles.preview
               }
@@ -366,15 +294,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
 
             <div className={styles.buttonRow}>
               <input type="submit" value="Preview" />
-              {/* <button
-                className="btn--text-red"
-                onClick={() => {
-                  // setIsSubmitSuccessful(true);
-                  setIsSubmitSuccessful(true);
-                }}
-              >
-                Reset BTN
-              </button> */}
               <input
                 className="btn--text-red"
                 type="reset"
