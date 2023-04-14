@@ -2,13 +2,17 @@ import { render, screen } from "@testing-library/react";
 import { describe, test, expect, beforeEach, vi } from "vitest";
 import ImagesGallery from "./ImagesGallery";
 import { BrowserRouter } from "react-router-dom";
+import { store } from "../../store/store";
+import { Provider } from "react-redux";
 
 describe("ImagesGallery render", () => {
   beforeEach(() => {
     render(
-      <BrowserRouter>
-        <ImagesGallery />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <ImagesGallery />
+        </BrowserRouter>
+      </Provider>
     );
   });
 

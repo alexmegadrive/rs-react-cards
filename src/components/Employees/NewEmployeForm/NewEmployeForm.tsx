@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
@@ -17,7 +17,9 @@ import { useActions } from "../../../hooks/useActions";
 interface INewEmployeFormProps {
   addNewEmploye: (e: IEmployeCard) => void;
 }
-
+interface ICategories {
+  [key: string]: boolean;
+}
 export interface IFormData {
   firstName: string;
   lastName: string;
@@ -25,13 +27,9 @@ export interface IFormData {
   file: File[];
   email: string;
   group: string;
-  category: {
-    appliance: boolean;
-    computers: boolean;
-    laptops: boolean;
-    smartphones: boolean;
-    tv: boolean;
-  };
+  category: ICategories;
+  notifications: "enabled" | "disabled";
+  img: string;
 }
 export interface IErrors {
   email?: string;
@@ -42,8 +40,10 @@ export interface IErrors {
 }
 
 const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
+
   const formDataState = useAppSelector((state: RootState) => state.form);
-  const { setFormData } = useActions();
+  const { setFormData, setImage, resetFormData } = useActions();
 
   const {
     register,
@@ -73,16 +73,21 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
   const hidePreview = () => {
     setIsPreviewActive(false);
   };
-
-  // console.log("storeSearchValue :", formDataState);
+  useEffect(() => {
+    // reset({ firstName: "" }, { keepValues: false, keepDirty: true });
+    // resetFormData();
+    // console.log("getValues :", getValues());
+    // console.log("redux :", formDataState.formData);
+    // setIsSubmitSuccessful(false);
+  }, [isSubmitSuccessful, reset]);
 
   const handleSubmitForm: SubmitHandler<IFormData> = async (
     data: IFormData
   ) => {
-    let src = "";
-    if (data.file[0]) {
-      src = await URL.createObjectURL(data.file[0]);
-    }
+    // let src = "";
+    // if (data.file[0]) {
+    //   src = await URL.createObjectURL(data.file[0]);
+    // }
 
     const newEmployeCard: IEmployeCard = {
       id: Date.now(),
@@ -90,16 +95,23 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
       lastName: data.lastName,
       email: data.email,
       birthDate: data.birthDate,
-      isNotificationsEnabled: true,
+      isNotificationsEnabled: data.notifications === "enabled",
       group: data.group,
-      accessCategories: [],
-      img: src,
+      accessCategories: Object.keys(data.category).filter(
+        (el) => data.category[el as keyof typeof data.category]
+      ),
+      img: formDataState.formData.img,
     };
+    console.log("test");
+
+    console.log("newEmployeCard :", newEmployeCard);
 
     setNewEmploye(newEmployeCard);
     if (validateForm(newEmployeCard, setErrors)) {
       setIsPreviewActive(true);
-      reset();
+      // resetFormData();
+
+      // reset({});
     }
     return data;
   };
@@ -115,6 +127,12 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
         if (preview.current) preview.current.src = src;
         const newEmployeCard = { ...newEmploye, img: src };
         await setNewEmploye(newEmployeCard);
+        console.log("{...formDataState.formData, img: src } :", {
+          ...formDataState.formData,
+          img: src,
+        });
+        // setFormData({ ...formDataState.formData, img: src });
+        setImage(src);
         setNewEmploye({ ...newEmployeCard, img: src });
       }
     }
@@ -127,158 +145,252 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
           employe={newEmploye}
           addNewEmploye={addNewEmploye}
           hidePreview={hidePreview}
+          resetFormCallback={() => reset({})}
         />
       ) : (
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit(handleSubmitForm)}
-          data-testid="form"
-        >
-          <h3>Add new employee</h3>
-          <label className={styles.label} htmlFor="firstName">
-            First name:
-          </label>
-          <input
-            type="text"
-            placeholder="John"
-            id="firstName"
-            {...register("firstName", {
-              onChange: () => setFormData(getValues()),
-              required: "Name is required!",
-              pattern: /^([A-Za-zА-Яа-яЁё]{3,})$/,
-            })}
-            aria-invalid={errorsLog.firstName ? "true" : "false"}
-          />
-          {errorsLog.firstName?.type === "pattern" && (
-            <p role="alert" style={{ color: "red" }}>
-              Invalid first name
-            </p>
-          )}
-          {errorsLog.firstName?.type === "required" && (
-            <p role="alert" style={{ color: "red" }}>
-              First name is required
-            </p>
-          )}
-
-          <label className={styles.label} htmlFor="lastName">
-            Last name:
-          </label>
-          <input
-            type="text"
-            placeholder="Smith"
-            id="lastName"
-            {...register("lastName", {
-              required: "Last name is required!",
-              onChange: () => setFormData(getValues()),
-            })}
-          />
-          <label className={styles.label} htmlFor="email">
-            Email:
-          </label>
-          <input
-            type="email"
-            placeholder="test@test.com"
-            id="email"
-            {...register("email", {
-              required: "Email is required!",
-              onChange: () => setFormData(getValues()),
-            })}
-          />
-          <label className={styles.label} htmlFor="birthDate">
-            Date of birth:
-          </label>
-          <input
-            type="date"
-            id="birthDate"
-            {...register("birthDate", {
-              onChange: () => setFormData(getValues()),
-              // required: "Date is required!",
-              // pattern:
-              //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
-            })}
-            aria-invalid={errorsLog.birthDate ? "true" : "false"}
-          />
-
-          <label className={styles.label} htmlFor="group">
-            Group:
-          </label>
-
-          <select
-            id="group"
-            {...register("group", {
-              onChange: () => {
-                setFormData(getValues());
-              },
-            })}
+        <>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(handleSubmitForm)}
+            data-testid="form"
           >
-            <option value="" hidden>
-              --Please choose an option--
-            </option>
-            <option value="Manager">Manager</option>
-            <option value="Sales">Sales</option>
-            <option value="Administration">Administration</option>
-            <option value="Other">Other</option>
-          </select>
-
-          <label className={styles.label} htmlFor="notifications">
-            Notifications:
-          </label>
-          <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-            <label htmlFor="notifications-on">
-              Enabled{" "}
-              <input
-                type="radio"
-                id="notifications-on"
-                name="notifications"
-                defaultChecked
-              />
+            <h3>Add new employee</h3>
+            <label className={styles.label} htmlFor="firstName">
+              First name:
             </label>
-            <label htmlFor="notifications-off">
-              Disabled{" "}
-              <input type="radio" id="notifications-off" name="notifications" />
-            </label>
-          </div>
-          <label className={styles.label} htmlFor="Access categories">
-            Access categories
-          </label>
+            <input
+              type="text"
+              placeholder="John"
+              id="firstName"
+              {...register("firstName", {
+                onChange: () => setFormData(getValues()),
+                required: "Name is required!",
+                pattern: /^([A-Za-zА-Яа-яЁё]{3,})$/,
+              })}
+              aria-invalid={errorsLog.firstName ? "true" : "false"}
+            />
+            {errorsLog.firstName?.type === "pattern" && (
+              <p role="alert" style={{ color: "red" }}>
+                Invalid first name
+              </p>
+            )}
+            {errorsLog.firstName?.type === "required" && (
+              <p role="alert" style={{ color: "red" }}>
+                First name is required
+              </p>
+            )}
 
-          {categories.map((category, index) => {
-            return (
-              <div key={index}>
+            <label className={styles.label} htmlFor="lastName">
+              Last name:
+            </label>
+            <input
+              type="text"
+              placeholder="Smith"
+              id="lastName"
+              {...register("lastName", {
+                required: "Last name is required!",
+                onChange: () => setFormData(getValues()),
+              })}
+            />
+            <label className={styles.label} htmlFor="email">
+              Email:
+            </label>
+            <input
+              type="email"
+              placeholder="test@test.com"
+              id="email"
+              {...register("email", {
+                required: "Email is required!",
+                onChange: () => setFormData(getValues()),
+              })}
+            />
+            <label className={styles.label} htmlFor="birthDate">
+              Date of birth:
+            </label>
+            <input
+              type="date"
+              id="birthDate"
+              {...register("birthDate", {
+                onChange: () => setFormData(getValues()),
+                // required: "Date is required!",
+                // pattern:
+                //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
+              })}
+              aria-invalid={errorsLog.birthDate ? "true" : "false"}
+            />
+
+            <label className={styles.label} htmlFor="group">
+              Group:
+            </label>
+
+            <select
+              id="group"
+              {...register("group", {
+                onChange: () => {
+                  setFormData(getValues());
+                },
+              })}
+            >
+              <option value="" hidden>
+                --Please choose an option--
+              </option>
+              <option value="Manager">Manager</option>
+              <option value="Sales">Sales</option>
+              <option value="Administration">Administration</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <label className={styles.label} htmlFor="notifications">
+              Notifications:
+            </label>
+            <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+              <label htmlFor="notifications-off">
+                Enabled{" "}
                 <input
-                  type="checkbox"
-                  id="category"
-                  {...register(`category.${category}`, {
+                  type="radio"
+                  {...register("notifications", {
                     onChange: () => {
                       setFormData(getValues());
                     },
                   })}
-                ></input>
-                <label htmlFor={category}>{category}</label>
-              </div>
-            );
-          })}
-          <label className={styles.label} htmlFor="file">
-            Upload a photo
-          </label>
+                  value={"enabled"}
+                />{" "}
+              </label>
 
-          <input
-            type="file"
-            id="file"
-            accept="image/*"
-            {...(register("file"),
-            { onChange: () => setFormData(getValues()) })}
-            onChange={(event) => handleImageUpload(event)}
-          />
+              <label htmlFor="notifications-on">
+                Disabled{" "}
+                <input
+                  type="radio"
+                  {...register("notifications", {
+                    onChange: () => {
+                      setFormData(getValues());
+                    },
+                  })}
+                  value={"disabled"}
+                />
+              </label>
+            </div>
+            <label className={styles.label} htmlFor="Access categories">
+              Access categories
+            </label>
 
-          <img src="" className={styles.preview} alt="preview" ref={preview} />
-          <input type="submit" value="Preview" />
-          <div style={{ color: "red" }}>
-            {Object.values(errors).length > 0
-              ? Object.values(errors).join(", ")
-              : ""}
-          </div>
-        </form>
+            {categories.map((category, index) => {
+              return (
+                <div key={index}>
+                  <input
+                    type="checkbox"
+                    id="category"
+                    {...register(`category.${category}`, {
+                      onChange: () => {
+                        setFormData(getValues());
+                      },
+                    })}
+                  ></input>
+                  <label htmlFor={category}>{category}</label>
+                </div>
+              );
+            })}
+            <label className={styles.label} htmlFor="file">
+              Upload a photo
+            </label>
+
+            {/* {formDataState.formData.img ? (
+            <>
+              <img
+                src={formDataState.formData.img}
+                className={
+                  formDataState.formData.img
+                    ? `${styles.preview_active} ${styles.preview}`
+                    : styles.preview
+                }
+                alt="preview"
+                ref={preview}
+              />
+              <input
+                type="file"
+                id="file"
+                accept="image/*"
+                {...register("file")}
+                onChange={(event) => handleImageUpload(event)}
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="file"
+                id="file"
+                accept="image/*"
+                {...register("file")}
+                onChange={(event) => handleImageUpload(event)}
+              />
+              <input
+                type="file"
+                id="file"
+                accept="image/*"
+                {...register("file")}
+                onChange={(event) => handleImageUpload(event)}
+              />
+            </>
+          )} */}
+            <input
+              type="file"
+              id="file"
+              accept="image/*"
+              {...register("file")}
+              onChange={(event) => handleImageUpload(event)}
+            />
+            {/* {formDataState.formData.img ? (
+              <img
+                src={formDataState.formData.img}
+                className={
+                  formDataState.formData.img
+                    ? `${styles.preview_active} ${styles.preview}`
+                    : styles.preview
+                }
+                alt="preview"
+                ref={preview}
+              />
+            ) : (
+              ""
+            )} */}
+            <img
+              src={formDataState.formData.img}
+              className={
+                formDataState.formData.img
+                  ? `${styles.preview_active} ${styles.preview}`
+                  : styles.preview
+              }
+              alt="preview"
+              ref={preview}
+            />
+
+            <div className={styles.buttonRow}>
+              <input type="submit" value="Preview" />
+              {/* <button
+                className="btn--text-red"
+                onClick={() => {
+                  // setIsSubmitSuccessful(true);
+                  setIsSubmitSuccessful(true);
+                }}
+              >
+                Reset BTN
+              </button> */}
+              <input
+                className="btn--text-red"
+                type="reset"
+                value="Reset"
+                onClick={() => {
+                  if (preview.current) preview.current.style.display = "none";
+                }}
+              />
+            </div>
+            <div style={{ color: "red" }}>
+              {Object.values(errors).length > 0
+                ? Object.values(errors).join(", ")
+                : ""}
+            </div>
+          </form>
+        </>
       )}
     </>
   );

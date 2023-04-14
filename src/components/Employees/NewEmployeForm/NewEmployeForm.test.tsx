@@ -3,6 +3,8 @@ import NewEmployeForm from "./NewEmployeForm";
 import { describe, test, expect, beforeEach, vi } from "vitest";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import userEvent from "@testing-library/user-event";
+import { store } from "../../../store/store";
+import { Provider } from "react-redux";
 
 describe("Form test", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,7 +12,9 @@ describe("Form test", () => {
   beforeEach(() => {
     file = new File(["test"], "test.png", { type: "image/png" });
     render(
-      <NewEmployeForm addNewEmploye={(e: IEmployeCard) => console.log(e)} />
+      <Provider store={store}>
+        <NewEmployeForm addNewEmploye={(e: IEmployeCard) => vi.fn()} />
+      </Provider>
     );
   });
 

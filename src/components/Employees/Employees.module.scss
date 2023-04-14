@@ -30,6 +30,11 @@
   }
 }
 
+.buttonRow {
+  display: flex;
+  flex-direction: row;
+}
+
 .label {
   font-weight: 900;
 }
@@ -59,4 +64,8 @@
   height: 60px;
   margin: 2px;
   object-fit: cover;
+
+  &_active {
+    display: block;
+  }
 }

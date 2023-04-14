@@ -12,6 +12,7 @@ const initialState: FormDataReducerState = {
     lastName: "",
     birthDate: "",
     file: [],
+    img: "",
     email: "",
     group: "",
     category: {
@@ -21,6 +22,7 @@ const initialState: FormDataReducerState = {
       smartphones: false,
       tv: false,
     },
+    notifications: "disabled",
   },
 };
 
@@ -29,10 +31,20 @@ export const formDataSlice = createSlice({
   initialState,
   reducers: {
     setFormData: (state, action: PayloadAction<IFormData>) => {
+      console.log("state :", state.formData);
+      console.log("state img :", state.formData.img);
       console.log("action.payload :", action.payload);
       const formValues = JSON.stringify(action.payload);
+
+      // const src = URL.createObjectURL(action.payload.file[0]);
       //creating a deepCopy to preventing errors
-      state.formData = JSON.parse(formValues);
+      state.formData = { ...JSON.parse(formValues), img: state.formData.img };
+    },
+    setImage: (state, action: PayloadAction<string>) => {
+      state.formData.img = action.payload;
+    },
+    resetFormData: (state) => {
+      state.formData = initialState.formData;
     },
   },
 });
