@@ -9,7 +9,11 @@ type ImageModalProps = {
 
 const ImageModal = ({ image, closeModal }: ImageModalProps) => {
   return (
-    <div className={styles.modalOverlay} onClick={closeModal}>
+    <div
+      className={styles.modalOverlay}
+      onClick={closeModal}
+      data-testid="modal"
+    >
       <div
         className={styles.modal}
         onClick={(e: React.SyntheticEvent) => e.stopPropagation()}

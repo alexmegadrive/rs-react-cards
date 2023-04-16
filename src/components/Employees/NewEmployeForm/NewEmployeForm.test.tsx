@@ -5,6 +5,8 @@ import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import userEvent from "@testing-library/user-event";
 import { store } from "../../../store/store";
 import { Provider } from "react-redux";
+import employeesDB from "../../../data/employees";
+import NewEmployePreview from "./NewEmployePreview";
 
 describe("Form test", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,7 +15,7 @@ describe("Form test", () => {
     file = new File(["test"], "test.png", { type: "image/png" });
     render(
       <Provider store={store}>
-        <NewEmployeForm addNewEmploye={(e: IEmployeCard) => vi.fn()} />
+        <NewEmployeForm addNewEmploye={(e: IEmployeCard) => console.log(e)} />
       </Provider>
     );
   });
@@ -71,5 +73,21 @@ describe("Form test", () => {
     await userEvent.type(dateInput, "1990-01-01");
     await userEvent.click(previewBtn);
     expect(screen.getByText(/Preview/i)).toBeDefined();
+  });
+  test("should render correct preview", async () => {
+    render(
+      <Provider store={store}>
+        <NewEmployePreview
+          employe={employeesDB[0]}
+          addNewEmploye={(e: IEmployeCard) => console.log(e)}
+          hidePreview={() => vi.fn()}
+          resetFormCallback={() => vi.fn()}
+        />
+      </Provider>
+    );
+
+    const confirmBtn = screen.getByText(/confirm/i);
+    await userEvent.click(confirmBtn);
+    expect(screen.getByText(/Preview new employe/i)).toBeDefined();
   });
 });

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "../Employees.module.scss";
 import NewEmployePreview from "./NewEmployePreview";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
@@ -41,7 +41,7 @@ export interface IErrors {
 
 const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
   const formDataState = useAppSelector((state: RootState) => state.form);
-  const { setFormData, setImage } = useActions();
+  const { setFormData } = useActions();
 
   const {
     register,
@@ -170,9 +170,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
               id="birthDate"
               {...register("birthDate", {
                 onChange: () => setFormData(getValues()),
-                // required: "Date is required!",
-                // pattern:
-                //   /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])([\/.-])(19[789]\d|20[012]\d)/,
               })}
               aria-invalid={errorsLog.birthDate ? "true" : "false"}
             />
