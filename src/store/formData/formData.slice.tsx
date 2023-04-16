@@ -30,20 +30,15 @@ export const formDataSlice = createSlice({
       if (action.payload.file.length > 0) {
         src = URL.createObjectURL(action.payload.file[0]);
       }
-      // console.log("formValues :", formValues);
-      // console.log("src :", src);
-
-      //creating a deepCopy to preventing errors
       return {
         ...JSON.parse(formValues),
         img: src ? src : state.img,
       };
-      // state.formData = { ...JSON.parse(formValues), img: state.formData.img };
     },
     setImage: (state, action: PayloadAction<string>) => {
       state.img = action.payload;
     },
-    resetFormData: (state) => {
+    resetFormData: () => {
       return initialState;
     },
   },
