@@ -96,23 +96,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
     return data;
   };
 
-  const handleImageUpload = async (
-    event: React.SyntheticEvent<HTMLInputElement>
-  ) => {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length > 0) {
-      if (preview.current) preview.current.style.display = "flex";
-      for (let i = 0; i < target.files.length; i++) {
-        const src = await URL.createObjectURL(target.files[i]);
-        if (preview.current) preview.current.src = src;
-        const newEmployeCard = { ...newEmploye, img: src };
-        await setNewEmploye(newEmployeCard);
-        setImage(src);
-        setNewEmploye({ ...newEmployeCard, img: src });
-      }
-    }
-  };
-
   return (
     <>
       {isPreviewActive ? (
@@ -278,7 +261,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
                   setFormData(getValues());
                 },
               })}
-              // onChange={(event) => handleImageUpload(event)}
             />
 
             <img
