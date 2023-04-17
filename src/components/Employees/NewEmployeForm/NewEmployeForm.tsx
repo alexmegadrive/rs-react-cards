@@ -14,9 +14,6 @@ import { RootState, useAppSelector } from "../../../store/store";
 import { validateForm } from "../../../utils/validateForm";
 import { useActions } from "../../../hooks/useActions";
 
-interface INewEmployeFormProps {
-  addNewEmploye: (e: IEmployeCard) => void;
-}
 interface ICategories {
   [key: string]: boolean;
 }
@@ -39,7 +36,7 @@ export interface IErrors {
   img?: string;
 }
 
-const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
+const NewEmployeForm: React.FC = () => {
   const formDataState = useAppSelector((state: RootState) => state.form);
   const { setFormData } = useActions();
 
@@ -101,7 +98,6 @@ const NewEmployeForm: React.FC<INewEmployeFormProps> = ({ addNewEmploye }) => {
       {isPreviewActive ? (
         <NewEmployePreview
           employe={newEmploye}
-          addNewEmploye={addNewEmploye}
           hidePreview={hidePreview}
           resetFormCallback={() => reset({})}
         />

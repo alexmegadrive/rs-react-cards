@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../components/Header/Header";
 import EmployeesList from "../../components/Employees/EmployeesList/EmployeesList";
 import AddEmployeForm from "../../components/Employees/AddEmploye/AddEmploye";
-import employeesDB from "../../data/employees";
-import { IEmployeCard } from "../../components/Employees/EmployeesList/EmployeesList";
+import { RootState, useAppSelector } from "../../store/store";
 
 const Employees: React.FC = () => {
-  const [employees, setEmployees] = useState<IEmployeCard[]>(employeesDB);
-
-  const addNewEmploye = (newEmploye: IEmployeCard) => {
-    setEmployees([newEmploye, ...employees]);
-  };
+  const employeesState = useAppSelector((state: RootState) => state.employees);
 
   return (
     <>
       <Header />
       <main className="main">
-        <AddEmployeForm addNewEmploye={addNewEmploye} />
-        <EmployeesList employees={employees} />
+        <AddEmployeForm />
+        <EmployeesList employees={employeesState} />
       </main>
     </>
   );

@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import imageSearchReducer from "./imageSearch/imageSearch.slice";
 import formDataReducer from "./formData/formData.slice";
+import employeesReducer from "./employees/employeesSlice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const reducers = combineReducers({
   search: imageSearchReducer,
   form: formDataReducer,
+  employees: employeesReducer,
 });
 export const store = configureStore({
   reducer: reducers,

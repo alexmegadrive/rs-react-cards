@@ -2,22 +2,19 @@ import React from "react";
 import { IEmployeCard } from "../EmployeesList/EmployeesList";
 import styles from "../Employees.module.scss";
 import { useActions } from "../../../hooks/useActions";
-import { RootState, useAppSelector } from "../../../store/store";
 
 interface INewEmployePreviewProps {
   employe: IEmployeCard;
-  addNewEmploye: (e: IEmployeCard) => void;
   hidePreview: () => void;
   resetFormCallback: () => void;
 }
 
 const NewEmployePreview = ({
   employe,
-  addNewEmploye,
   hidePreview,
   resetFormCallback,
 }: INewEmployePreviewProps) => {
-  const { resetFormData } = useActions();
+  const { resetFormData, addNewEmploye } = useActions();
 
   const handleConfirmNewEmploye = (employe: IEmployeCard) => {
     if (employe) {

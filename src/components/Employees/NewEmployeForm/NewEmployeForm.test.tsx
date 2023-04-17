@@ -15,7 +15,7 @@ describe("Form test", () => {
     file = new File(["test"], "test.png", { type: "image/png" });
     render(
       <Provider store={store}>
-        <NewEmployeForm addNewEmploye={(e: IEmployeCard) => console.log(e)} />
+        <NewEmployeForm />
       </Provider>
     );
   });
@@ -79,7 +79,6 @@ describe("Form test", () => {
       <Provider store={store}>
         <NewEmployePreview
           employe={employeesDB[0]}
-          addNewEmploye={(e: IEmployeCard) => console.log(e)}
           hidePreview={() => vi.fn()}
           resetFormCallback={() => vi.fn()}
         />
