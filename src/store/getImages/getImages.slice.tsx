@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IImageResponseResult } from "../../api/imageSearchApi";
+import { IImageResponseResult } from "../../types/pixabayAPI";
 const baseURL = "https://pixabay.com/api";
 const APIKey = "24848647-9c50e0191dab5764d68291abd";
 type queryType = {

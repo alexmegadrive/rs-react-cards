@@ -1,5 +1,5 @@
 import React from "react";
-import { IImageItem, IImageResponseItem } from "../../../api/imageSearchApi";
+import { IImageResponseItem } from "../../../types/pixabayAPI";
 import styles from "../ImagesGallery.module.scss";
 
 type ImageModalProps = {

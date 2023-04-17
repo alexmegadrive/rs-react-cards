@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import styles from "./ImagesGallery.module.scss";
-import { IImageItem, IImageResponseItem } from "../../api/imageSearchApi";
+import { IImageResponseItem } from "../../types/pixabayAPI";
 import ImageModal from "./ImageModal/ImageModal";
 
 type ImagesGalleryProps = {

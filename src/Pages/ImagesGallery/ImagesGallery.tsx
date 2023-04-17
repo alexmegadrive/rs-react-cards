@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ImagesList from "../../components/ImagesList";
-import { imageSearchApiCall } from "../../api/imageSearchApi";
-import { useQuery } from "react-query";
 import LoadingIndicator from "../../components/LoadingIndicator";
-import { IQueryParams } from "../../api/imageSearchApi";
+import { IQueryParams } from "../../types/pixabayAPI";
 import Pagination from "../../components/Pagination/Pagination";
 import { useGetImagesByNameQuery } from "../../store/getImages/getImages.slice";
 
