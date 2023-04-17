@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import CardsList from "../../components/CardsList/CardsList";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { products } from "../../data/products";
+import { products, IProduct } from "../../data/products";
+import Header from "../../components/Header/Header";
 import "./main.scss";
 
-export default class Main extends React.Component {
-  state = {
-    filteredProducts: products,
-  };
-  filterProductsFunc = this.filterProducts.bind(this);
+const Main: React.FC = () => {
+  const [filteredProducts, setFilteredProducts] =
+    useState<IProduct[]>(products);
 
-  filterProducts(value: string) {
-    console.log("test");
-    this.setState({
-      filteredProducts: products.filter((product) => {
-        return product.title.toLocaleLowerCase().includes(value.toLowerCase());
-      }),
-    });
-  }
-
-  render() {
-    return (
-      <main className="main">
-        <SearchBar filterProducts={this.filterProductsFunc} />
-        <CardsList products={this.state.filteredProducts} />
-      </main>
+  const filterProducts = (value: string) => {
+    setFilteredProducts(
+      products.filter((product) =>
+        product.title.toLocaleLowerCase().includes(value.toLowerCase())
+      )
     );
-  }
-}
+  };
+
+  return (
+    <>
+      <Header />
+      <main className="main">
+        <SearchBar callback={filterProducts} queryKey="productsQuery" />
+        <CardsList products={filteredProducts} />
+      </main>
+    </>
+  );
+};
+
+export default Main;

@@ -1,8 +1,16 @@
+@import "https://necolas.github.io/normalize.css/8.0.1/normalize.css";
+/* @import "https://meyerweb.com/eric/tools/css/reset/reset.css"; */
+
+body {
+  margin: 0;
+}
+
 :root {
+  position: relative;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  min-height: 100vh;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -19,11 +27,14 @@ a {
   color: white;
   text-decoration: inherit;
 }
-a:hover {
+a.active {
   color: orange;
 }
+a:hover {
+  color: darkorange;
+}
 
-body {
+.header__link--active body {
   margin: 0;
   display: flex;
   min-width: 320px;
@@ -35,23 +46,32 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+button,
+input[type="submit"],
+input[type="reset"] {
+  margin: 5px;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid black;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover,
+input[type="submit"]:hover {
   border-color: #646cff;
 }
 button:focus,
-button:focus-visible {
+button:focus-visible,
+input[type="submit"]:focus {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button.btn--text-red,
+input.btn--text-red {
+  color: red;
 }
 
 @media (prefers-color-scheme: light) {
@@ -59,9 +79,7 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    /* color: #747bff; */
-  }
+
   button {
     background-color: #f9f9f9;
   }
