@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 
 import styles from "./ImagesGallery.module.scss";
-import { IImageItem } from "../../api/imageSearchApi";
+import { IImageItem, IImageResponseItem } from "../../api/imageSearchApi";
 import ImageModal from "./ImageModal/ImageModal";
 
 type ImagesGalleryProps = {
-  images: IImageItem[];
+  images: IImageResponseItem[];
   loading?: boolean;
 };
 const ImagesList: React.FC<ImagesGalleryProps> = ({ images }) => {
   const [modalOpened, setModalOpened] = useState(false);
-  const [currentImage, setCurrentImage] = useState<IImageItem>();
+  const [currentImage, setCurrentImage] = useState<IImageResponseItem>();
 
   return (
     <div className={styles.container}>
       {images.length > 0 &&
-        images.map((image: IImageItem, index) => (
+        images.map((image: IImageResponseItem, index) => (
           <div
             key={index}
             data-testid={"image-card"}
@@ -26,7 +26,11 @@ const ImagesList: React.FC<ImagesGalleryProps> = ({ images }) => {
             }}
           >
             <div className={styles.imageWrapper}>
-              <img className={styles.image} alt={image.alt} src={image.url} />
+              <img
+                className={styles.image}
+                alt={image.tags}
+                src={image.largeImageURL}
+              />
             </div>
           </div>
         ))}
