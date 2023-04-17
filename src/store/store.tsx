@@ -19,14 +19,7 @@ export const store = configureStore({
   //   getDefaultMiddleware().concat(getImages.middleware),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        // Ignore these action types
-        ignoredActions: ["payload/file"],
-        // Ignore these field paths in all actions
-        ignoredActionPaths: ["payload.file"],
-        // Ignore these paths in the state
-        ignoredPaths: ["form.formData.file"],
-      },
+      serializableCheck: false,
     }).concat(getImages.middleware),
 });
 setupListeners(store.dispatch);

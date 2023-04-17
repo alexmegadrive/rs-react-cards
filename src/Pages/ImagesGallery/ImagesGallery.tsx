@@ -18,11 +18,7 @@ const ImagesGallery = () => {
   const handleChangeImageQuery = (value: string) => {
     setImageQuery({ page: 1, query: value });
   };
-  // const { data, isLoading, isError } = useQuery(
-  //   ["images", imageQuery],
-  //   () => imageSearchApiCall(imageQuery),
-  //   { refetchOnMount: false }
-  // );
+
   const { data, error, isLoading } = useGetImagesByNameQuery(imageQuery);
 
   const itemsPerPage = 10;
