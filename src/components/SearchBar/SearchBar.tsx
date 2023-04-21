@@ -10,18 +10,9 @@ interface ISearchBarProps {
 
 const SearchBar = ({ callback, queryKey }: ISearchBarProps) => {
   const { setSearchQuery } = useActions();
-  const [value, setValue] = useState<string>(
-    localStorage.getItem(queryKey) || ""
-  );
+  const [value, setValue] = useState<string>("");
   const searchValue = useRef("");
   const debouncedValue = useDebounce<string>(value, 500);
-
-  useEffect(() => {
-    searchValue.current = value;
-    return () => {
-      localStorage[queryKey] = searchValue.current as string;
-    };
-  }, [value]);
 
   useEffect(() => {
     setSearchQuery(value);

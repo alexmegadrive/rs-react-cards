@@ -19,7 +19,6 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <Header />
       <main className="main">
         <SearchBar callback={filterProducts} queryKey="productsQuery" />
         <CardsList products={filteredProducts} />

@@ -9,7 +9,6 @@ const Employees: React.FC = () => {
 
   return (
     <>
-      <Header />
       <main className="main">
         <AddEmployeForm />
         <EmployeesList employees={employeesState} />

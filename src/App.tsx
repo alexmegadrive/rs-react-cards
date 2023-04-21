@@ -1,41 +1,27 @@
 import React from "react";
-import "./App.css";
-import Main from "./Pages/Main/Main";
+import { Routes, Route } from "react-router-dom";
+
+import Header from "./components/Header/Header";
 import About from "./Pages/About/About";
-import Page404 from "./Pages/Page404/Page404";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Employees from "./Pages/Employees/Employees";
 import ImagesGallery from "./Pages/ImagesGallery/ImagesGallery";
+import Main from "./Pages/Main/Main";
+import Page404 from "./Pages/Page404/Page404";
+import "./index.css";
 
-function App() {
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <ImagesGallery />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/employees",
-        element: <Employees />,
-      },
-
-      {
-        path: "/Products",
-        element: <Main />,
-      },
-      {
-        path: "*",
-        element: <Page404 />,
-      },
-    ],
-    { basename: "/rs-react-cards/" }
+const App = () => {
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<ImagesGallery />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/employees" element={<Employees />} />
+        <Route path="/products" element={<Main />} />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+    </>
   );
-
-  return <RouterProvider router={router} />;
-}
+};
 
 export default App;

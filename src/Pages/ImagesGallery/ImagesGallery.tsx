@@ -31,7 +31,6 @@ const ImagesGallery = () => {
 
   return (
     <>
-      <Header />
       <main className="main">
         <SearchBar callback={handleChangeImageQuery} queryKey="imagesQuery" />
         {error ? (
