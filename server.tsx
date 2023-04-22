@@ -2,15 +2,10 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
-import process from "process";
-import { ViteDevServer, createServer as createViteServer } from "vite";
-import App from "./src/App";
-import { renderToPipeableStream } from "react-dom/server";
+import { createServer as createViteServer } from "vite";
 
-// const resolve = (p: string) => path.resolve(__dirname, p);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 5173;
-// const isProd = !process.env.NODE_ENV;
 
 async function createServer() {
   const app = express();
@@ -20,25 +15,7 @@ async function createServer() {
     appType: "custom",
   });
 
-  // Use vite's connect instance as middleware. If you use your own
-  // express router (express.Router()), you should use router.use
   app.use(vite.middlewares);
-  // let vite: ViteDevServer;
-
-  // if (!isProd) {
-  //   vite = await createViteServer({
-  //     server: { middlewareMode: true },
-  //     appType: "custom",
-  //   });
-  //   app.use(vite.middlewares);
-  // } else {
-  //   app.use((await import("compression")).default());
-  //   app.use(
-  //     (await import("serve-static")).default(resolve("dist/client"), {
-  //       index: false,
-  //     })
-  //   );
-  // }
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
@@ -70,23 +47,6 @@ async function createServer() {
 
       // 6. Send the rendered HTML back.
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
-
-      // const { pipe } = renderToPipeableStream(<App />, {
-      //   bootstrapScripts: ["/main.js"],
-      //   onShellReady() {
-      //     res.setHeader("content-type", "text/html");
-      //     pipe(res);
-      //   },
-      //   onShellError(error) {
-      //     res.statusCode = 500;
-      //     res.setHeader("content-type", "text/html");
-      //     res.send("<h1>Something went wrong</h1>");
-      //   },
-      //   onError(error) {
-      //     console.error(error);
-      //     // logServerCrashReport(error);
-      //   },
-      // });
     } catch (e: unknown) {
       // If an error is caught, let Vite fix the stack trace so it maps back
       // to your actual source code.
