@@ -13,9 +13,6 @@ const Header: React.FC<IHeader> = ({}) => {
       <img className="logo" src={logo} alt="logo" />
 
       <NavigationLink destination={"/"} text={"Main"} />
-      <NavigationLink destination={"/about"} text={"About"} />
-      <NavigationLink destination={"/contacts"} text={"Contacts"} />
-      <NavigationLink destination={"/support"} text={"Support"} />
       <NavigationLink destination={"/employees"} text={"Employees"} />
       <NavigationLink destination={"/products"} text={"Products"} />
     </header>
