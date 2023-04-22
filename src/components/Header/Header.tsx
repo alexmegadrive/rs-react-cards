@@ -11,7 +11,6 @@ const Header: React.FC<IHeader> = ({}) => {
   return (
     <header className="header">
       <img className="logo" src={logo} alt="logo" />
-
       <NavigationLink destination={"/"} text={"Main"} />
       <NavigationLink destination={"/employees"} text={"Employees"} />
       <NavigationLink destination={"/products"} text={"Products"} />

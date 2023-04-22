@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
-import path from "path";
 import { fileURLToPath } from "url";
+import path from "path";
 import express from "express";
 import { createServer as createViteServer } from "vite";
 
@@ -48,10 +48,10 @@ async function createServer() {
       // 6. Send the rendered HTML back.
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } catch (e: unknown) {
-      // If an error is caught, let Vite fix the stack trace so it maps back
-      // to your actual source code.
-      // vite.ssrFixStacktrace(e);
-      next(e);
+      if (e instanceof Error) {
+        vite.ssrFixStacktrace(e);
+        next(e);
+      }
     }
   });
 
