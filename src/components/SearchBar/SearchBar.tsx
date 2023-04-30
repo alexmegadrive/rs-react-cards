@@ -1,44 +1,40 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useActions } from "../../hooks/useActions";
+import useDebounce from "../../hooks/useDebounce";
 import "./searchBar.scss";
-// import I
 
 interface ISearchBarProps {
-  filterProducts: (value: string) => void | undefined;
+  callback: (value: string) => void | undefined | Promise<void>;
+  queryKey: string;
 }
 
-class SearchBar extends React.Component<ISearchBarProps> {
-  state = {
-    value: localStorage.getItem("search")
-      ? (localStorage.getItem("search") as string)
-      : "",
-  };
-  handleChangeInput = this.handleChange.bind(this);
+const SearchBar = ({ callback, queryKey }: ISearchBarProps) => {
+  const { setSearchQuery } = useActions();
+  const [value, setValue] = useState<string>("");
+  const searchValue = useRef("");
+  const debouncedValue = useDebounce<string>(value, 500);
 
-  componentDidMount() {
-    this.props.filterProducts(this.state.value);
-  }
-  componentWillUnmount() {
-    localStorage.setItem("search", this.state.value as string);
-  }
+  useEffect(() => {
+    setSearchQuery(value);
+    callback(value);
+  }, [debouncedValue]);
 
-  async handleChange(e: React.SyntheticEvent) {
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
-    this.setState({ value: input.value });
-    this.props.filterProducts(input.value);
-  }
-  render() {
-    return (
-      <div className="search">
-        <input
-          type="text"
-          className="search__input"
-          value={this.state.value}
-          onChange={this.handleChangeInput}
-        ></input>
-        <div className="search__button"></div>
-      </div>
-    );
-  }
-}
+    setValue(input.value);
+  };
+
+  return (
+    <div className="search">
+      <input
+        type="text"
+        className="search__input"
+        value={value}
+        onChange={handleChange}
+      ></input>
+      <div className="search__button"></div>
+    </div>
+  );
+};
 
 export default SearchBar;

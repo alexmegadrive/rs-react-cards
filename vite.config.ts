@@ -1,22 +1,18 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-// import { resolve } from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // resolve: {
-  //   alias: {
-  //     "@src": resolve(__dirname, "src"),
-  //   },
-  // },
+  server: { port: 3000 },
+  base: "/rs-react-cards/",
   test: {
     globals: true,
     environment: "jsdom",
     coverage: {
       reportsDirectory: "./tests/coverage",
       reporter: ["text", "json", "html"],
-      provider: "c8",
+      provider: "istanbul",
+      all: true,
     },
   },
 });

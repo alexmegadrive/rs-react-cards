@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+/tests/coverage
+/tests/.gitignore
+/src/Pages/ImagesGallery/ImagesGallery.text.tsx
+/vite.config.ts.timestamp-1681999793390.mjs
+/vite.config.ts.timestamp-1681999802667.mjs
