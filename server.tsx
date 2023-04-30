@@ -5,7 +5,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const port = 5173;
+const port = 5100;
 
 async function createServer() {
   const app = express();
@@ -40,13 +40,28 @@ async function createServer() {
       // 4. render the app HTML. This assumes entry-server.js's exported
       //     `render` function calls appropriate framework SSR APIs,
       //    e.g. ReactDOMServer.renderToString()
-      const appHtml = await render(url);
-
       // 5. Inject the app-rendered HTML into the template.
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+      // 6. Send the rendered HTML back.
 
       // 6. Send the rendered HTML back.
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+
+      const chunks = template.split("<!--ssr-outlet-->");
+
+      const { pipe } = await render(url, {
+        onShellReady() {
+          res.write(chunks[0]);
+          pipe(res);
+        },
+        onShellError(err: Error) {
+          console.error(err);
+        },
+        onAllReady() {
+          res.end(chunks[1]);
+        },
+        onError(err: Error) {
+          console.error(err);
+        },
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         vite.ssrFixStacktrace(e);
